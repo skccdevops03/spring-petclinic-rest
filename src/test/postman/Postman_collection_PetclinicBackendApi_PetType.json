@@ -963,8 +963,8 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"const res = pm.response.json();",
-													"console.log('pm.response.text() : ' + pm.response.text());",
+													"// const res = pm.response.json();",
+													"// console.log('pm.response.text() : ' + pm.response.text());",
 													"",
 													"pm.test('Status Code가 200인지 확인', () => {",
 													"    pm.expect(pm.response.code).to.eql(200);",
@@ -973,6 +973,15 @@
 													"pm.test('value가 elephant인지 확인', () => {",
 													"    pm.expect(pm.response.text()).to.include('elephant');",
 													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
 												],
 												"type": "text/javascript"
 											}
@@ -1155,7 +1164,7 @@
 													"    pm.expect(pm.response.text()).to.include('dumbo');",
 													"});",
 													"",
-													"console.log('request : ' + pm.response.text());"
+													"// console.log('request : ' + pm.response.text());"
 												],
 												"type": "text/javascript"
 											}
@@ -1905,9 +1914,13 @@
 											"console.log('addPetType 결과 id : ' + res.id);",
 											"console.log('addPetType 결과 name : ' + res.name);",
 											"",
-											"pm.environment.set('petTypeId', res.id);",
+											"pm.globals.set('petTypeId', parseInt(res.id));",
 											"",
-											"console.log('환경변수 설정된 petTypeId : ' + pm.environment.get('petTypeId'));"
+											"console.log('환경변수 설정된 petTypeId : ' + pm.globals.get('petTypeId'));",
+											"",
+											"",
+											"",
+											""
 										],
 										"type": "text/javascript"
 									}
