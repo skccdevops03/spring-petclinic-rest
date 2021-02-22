@@ -3061,7 +3061,7 @@
 	"variable": [
 		{
 			"key": "baseUrl",
-			"value": "localhost:9966/petclinic"
+			"value": "172.17.0.2:9966/petclinic"
 		}
 	]
 }
