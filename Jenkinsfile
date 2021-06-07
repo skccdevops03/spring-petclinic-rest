@@ -21,6 +21,7 @@ pipeline {
     		steps {
         		configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
             	sh './mvnw sonar:sonar -s $MAVEN_SETTINGS'
+            	//test
         		}
     		}
 		}
