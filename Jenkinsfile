@@ -8,7 +8,7 @@ pipeline {
             IMAGE_NAME = 'spring-petclinic-rest'
             IMAGE_TAG = '${GIT_COMMIT_SHORT}_${BUILD_NUMBER}'
             REGISTRY_URL = 'http://54.180.16.187:8000'
-            REGISTRY_CREDENTIALS = 'harbor-docker-registry'
+            REGISTRY_CREDENTIALS = 'Harbor-docker-registry'
         }
     
     stages {
