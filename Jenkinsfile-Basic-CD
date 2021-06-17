@@ -1,0 +1,62 @@
+pipeline {
+  agent {
+    kubernetes {
+      label 'petclinic-cd'
+      yamlFile 'jenkins-agent-pod.yaml'
+    }
+  }
+
+  environment {
+    REGISTRY_URL = '54.180.16.187:8000'
+    REGISTRY_CREDENTIALS = 'harbor-docker-registry'
+    APP_IMAGE = null
+    IMAGE_REPO = 'repo-spring-petclinic-rest'
+    IMAGE_NAME = 'spring-petclinic-rest'
+    IMAGE_TAG = sh(returnStdout: true, script: '(git rev-parse --short HEAD && echo "_$BUILD_NUMBER") | tr -d "\n"').trim()
+  }
+
+  stages {
+    stage('Package') {
+      steps {
+        container('maven') {
+          sh 'mvn clean package -DskipTests'
+          archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+        }
+      }
+    }
+    stage('Build Docker image') {
+      steps {
+        container('docker') {
+          script {
+            APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}")
+          }
+        }
+      }
+    }
+    stage('Push Docker image') {
+      steps {
+        container('docker') {
+          script {
+            docker.withRegistry('http://' + REGISTRY_URL, REGISTRY_CREDENTIALS) {
+              APP_IMAGE.push()
+              APP_IMAGE.push('latest')
+            }
+          }
+        }
+      }
+    }
+    stage( 'Deploy to Cluster' ) {
+      steps {
+        script {
+          kubernetesDeploy(kubeconfigId: 'kubeconfig-sa-token', configs: 'petclinic-app.yaml')
+        }
+        sh 'sleep 10'
+        /*container('kubectl') {
+          sh 'sleep 10'
+          sh 'kubectl wait --for=condition=available --timeout=60s deployments -l app=petclinic'
+          sh 'kubectl wait --for=condition=ready --timeout=60s pods -l app=hello-world'
+        }*/
+      }
+    }
+  }
+}
