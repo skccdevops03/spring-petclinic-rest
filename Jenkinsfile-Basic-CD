@@ -7,7 +7,7 @@ pipeline {
   }
 
   environment {
-    REGISTRY_URL = 'http://54.180.16.187:8000'
+    REGISTRY_URL = '54.180.16.187:8000'
     REGISTRY_CREDENTIALS = 'Harbor-docker-registry'
     APP_IMAGE = null
     IMAGE_REPO = 'repo-spring-petclinic-rest'
