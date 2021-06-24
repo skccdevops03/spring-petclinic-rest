@@ -47,6 +47,7 @@ pipeline {
     }
     
    stage('Update manifest') {
+    withCredentials([usernamePassword(credentialsId: 'git_skccdevops03', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PWD')]) {
       steps {
         sh """
           git config --global user.name 'skccdevops03'
