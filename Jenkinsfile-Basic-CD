@@ -45,19 +45,7 @@ pipeline {
         }
       }
     }
-    stage( 'Deploy to Cluster' ) {
-      steps {
-        script {
-          kubernetesDeploy(kubeconfigId: 'kubeconfig-sa-token', configs: 'petclinic-app.yaml')
-        }
-        sh 'sleep 10'
-        /*container('kubectl') {
-          sh 'sleep 10'
-          sh 'kubectl wait --for=condition=available --timeout=60s deployments -l app=petclinic'
-          sh 'kubectl wait --for=condition=ready --timeout=60s pods -l app=hello-world'
-        }*/
-      }
-    }
+    
     stage('Update manifest') {
       steps {
         sh """
