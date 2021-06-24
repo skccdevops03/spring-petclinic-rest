@@ -52,7 +52,8 @@ pipeline {
           git config --global user.name 'skccdevops03'
           git config --global user.email 'skcc.devops03@sk.com'
           git config --global credential.helper cache
-            git config --global push.default simple
+          git config --global push.default simple
+          git config --list
         """
         git url: 'https://github.com/skccdevops03/petclinic-argocd-helm.git', credentialsId: 'git_skccdevops03', branch: 'main'
         sh """
