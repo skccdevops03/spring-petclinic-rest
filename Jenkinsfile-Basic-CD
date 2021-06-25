@@ -13,7 +13,7 @@ pipeline {
     IMAGE_REPO = 'repo-spring-petclinic-rest'
     IMAGE_NAME = 'spring-petclinic-rest'
     IMAGE_TAG = sh(returnStdout: true, script: '(git rev-parse --short HEAD && echo "_$BUILD_NUMBER") | tr -d "\n"').trim()
-    APP_URL='http://ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com'
+    APP_URL='http://ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com/petclinic'
     APP_PORT=80
   }
 
@@ -70,20 +70,24 @@ pipeline {
       stage('API Test') {
       steps {
         container('newman') {
-          sh """ 
-            newman run hello-world.postman_collection.json \
-            --env-var 'host_url=${APP_URL}/petclinic/swagger-ui.html' --env-var 'port=${APP_PORT}' \
-            --reporters cli,junit \
-            --reporter-junit-export 'target/newman/hello-world-report.xml'
+          
+          git url: 'https://github.com/skccdevops03/spring-petclinic-rest.git',
+                  credentialsId: 'git_skccdevops03',
+                    branch: 'master'
+                    
+          sh """
+            newman run api_test.json \
+                  --env-var 'baseUrl=${APP_URL}' --env-var 'petTypeId=""'\
+                  --reporter : { html : { export : './petclinic-report.html', template: './customTemplate.hbs' } }
           """
         }
       }
       post {
         always {
-          junit 'target/newman/*.xml'
+          junit 'petclinic-report.xml'
         }
       }
-    }
+    }    
     
   }
 }
