@@ -79,7 +79,7 @@ pipeline {
             newman run api_test.json \
                   --env-var 'baseUrl=${APP_URL}' --env-var 'petTypeId=""'\
                   --reporters cli,junit \                  
-                  --reporter-junit-export 'petclinic-report.xml'
+                  --reporter-junit-export 'petclinic-report.xml' \
                   --reporter : { html : { export : 'petclinic-report.html', template: './customTemplate.hbs' } }
           """
         }
