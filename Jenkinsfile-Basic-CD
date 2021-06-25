@@ -67,7 +67,7 @@ pipeline {
       }
     }
     
-      stage('API Test') {
+       stage('API Test') {
       steps {
         container('newman') {
           
@@ -77,7 +77,6 @@ pipeline {
                     
           sh """
             newman run api_test.json \
-               
                   --env-var 'baseUrl=${APP_URL}' --env-var 'petTypeId=""'\
                   --reporters cli,junit \
                   --reporter-junit-export 'petclinic-report.xml'
@@ -90,6 +89,5 @@ pipeline {
         }
       }
     }    
-    
   }
 }
