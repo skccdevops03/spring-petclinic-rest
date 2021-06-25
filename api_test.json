@@ -1,0 +1,1137 @@
+{
+	"info": {
+		"_postman_id": "b54c51fc-649b-4846-bd19-79088d3eb920",
+		"name": "REST Petclinic backend Api Customized",
+		"description": "This is REST API documentation of the Spring Petclinic backend. If authentication is enabled, when calling the APIs use admin/admin\n\nContact Support:\n Name: CHA, IL HWAN\n Email: sk.ilhwan.cha@gmail.com",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "pettypes",
+					"item": [
+						{
+							"name": "{pet Type Id}",
+							"item": [
+								{
+									"name": "getAllPetTypes",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test('Body에 cat이 포함되어 있는지 테스트', function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"    pm.response.to.be.ok;\r",
+													"    pm.expect(pm.response.text()).to.include('cat');\r",
+													"});\r",
+													"\r",
+													"console.log('request : ' + pm.response.text());"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/pettypes",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pettypes"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "[\n {\n  \"id\": 27537551,\n  \"name\": \"in ex id esse\"\n },\n {\n  \"id\": 59374449,\n  \"name\": \"non ex\"\n }\n]"
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes"
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Not Found",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes"
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "addPetType",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"const res = pm.response.json();\r",
+													"\r",
+													"console.log('addPetType 결과 id : ' + res.id);\r",
+													"console.log('addPetType 결과 name : ' + res.name);\r",
+													"\r",
+													"pm.globals.set('petTypeId', parseInt(res.id));\r",
+													"\r",
+													"console.log('환경변수 설정된 petTypeId : ' + pm.globals.get('petTypeId'));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"elephant\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/pettypes",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pettypes"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"id\": -55155222,\n \"name\": \"fugiat ut incididunt\"\n}"
+										},
+										{
+											"name": "Created",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes"
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes"
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes"
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Not Found",
+											"originalRequest": {
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes"
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "getPetType",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status Code가 200인지 확인\", () => {\r",
+													"    pm.expect(pm.response.code).to.eql(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"value가 elephant인지 확인\", () => {\r",
+													"    pm.expect(pm.response.text()).to.include(\"elephant\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"petTypeId\", parseInt(pm.globals.get(\"petTypeId\")));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pettypes",
+												":petTypeId"
+											],
+											"variable": [
+												{
+													"key": "petTypeId",
+													"value": "{{petTypeId}}"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes",
+														":petTypeId"
+													],
+													"variable": [
+														{
+															"key": "petTypeId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"id\": -55155222,\n \"name\": \"fugiat ut incididunt\"\n}"
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes",
+														":petTypeId"
+													],
+													"variable": [
+														{
+															"key": "petTypeId"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes",
+														":petTypeId"
+													],
+													"variable": [
+														{
+															"key": "petTypeId"
+														}
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Not Found",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes",
+														":petTypeId"
+													],
+													"variable": [
+														{
+															"key": "petTypeId"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "updatePetType",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"id\": {{petTypeId}},\n    \"name\": \"dumbo\"\n}"
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/pettypes/{{petTypeId}}",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pettypes",
+												"{{petTypeId}}"
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes",
+														":petTypeId"
+													],
+													"variable": [
+														{
+															"key": "petTypeId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"id\": -55155222,\n \"name\": \"fugiat ut incididunt\"\n}"
+										},
+										{
+											"name": "Created",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes",
+														":petTypeId"
+													],
+													"variable": [
+														{
+															"key": "petTypeId"
+														}
+													]
+												}
+											},
+											"status": "Created",
+											"code": 201,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes",
+														":petTypeId"
+													],
+													"variable": [
+														{
+															"key": "petTypeId"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes",
+														":petTypeId"
+													],
+													"variable": [
+														{
+															"key": "petTypeId"
+														}
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Not Found",
+											"originalRequest": {
+												"method": "PUT",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes",
+														":petTypeId"
+													],
+													"variable": [
+														{
+															"key": "petTypeId"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "getPetType2",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status Code가 200인지 확인\", () => {\r",
+													"    pm.expect(pm.response.code).to.eql(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"value가 dumbo인지 확인\", () => {\r",
+													"    pm.expect(pm.response.text()).to.include(\"dumbo\");\r",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"petTypeId\", parseInt(pm.globals.get(\"petTypeId\")));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pettypes",
+												":petTypeId"
+											],
+											"variable": [
+												{
+													"key": "petTypeId",
+													"value": "{{petTypeId}}"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes",
+														":petTypeId"
+													],
+													"variable": [
+														{
+															"key": "petTypeId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"id\": -55155222,\n \"name\": \"fugiat ut incididunt\"\n}"
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes",
+														":petTypeId"
+													],
+													"variable": [
+														{
+															"key": "petTypeId"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes",
+														":petTypeId"
+													],
+													"variable": [
+														{
+															"key": "petTypeId"
+														}
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Not Found",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes",
+														":petTypeId"
+													],
+													"variable": [
+														{
+															"key": "petTypeId"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								},
+								{
+									"name": "deletePetType",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.variables.set(\"petTypeId\", parseInt(pm.globals.get(\"petTypeId\")));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pettypes",
+												":petTypeId"
+											],
+											"variable": [
+												{
+													"key": "petTypeId",
+													"value": "{{petTypeId}}"
+												}
+											]
+										}
+									},
+									"response": [
+										{
+											"name": "OK",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes",
+														":petTypeId"
+													],
+													"variable": [
+														{
+															"key": "petTypeId"
+														}
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "No Content",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes",
+														":petTypeId"
+													],
+													"variable": [
+														{
+															"key": "petTypeId"
+														}
+													]
+												}
+											},
+											"status": "No Content",
+											"code": 204,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Unauthorized",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes",
+														":petTypeId"
+													],
+													"variable": [
+														{
+															"key": "petTypeId"
+														}
+													]
+												}
+											},
+											"status": "Unauthorized",
+											"code": 401,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										},
+										{
+											"name": "Forbidden",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/api/pettypes/:petTypeId",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pettypes",
+														":petTypeId"
+													],
+													"variable": [
+														{
+															"key": "petTypeId"
+														}
+													]
+												}
+											},
+											"status": "Forbidden",
+											"code": 403,
+											"_postman_previewlanguage": "text",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "text/plain"
+												}
+											],
+											"cookie": [],
+											"body": ""
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "localhost:9966/petclinic"
+		},
+		{
+			"key": "petTypeId",
+			"value": ""
+		}
+	]
+}
