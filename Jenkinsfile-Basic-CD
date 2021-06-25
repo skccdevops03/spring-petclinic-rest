@@ -78,13 +78,15 @@ pipeline {
           sh """
             newman run api_test.json \
                   --env-var 'baseUrl=${APP_URL}' --env-var 'petTypeId=""'\
-                  --reporter : { html : { export : './petclinic-report.html', template: './customTemplate.hbs' } }
+                  --reporters cli,junit \                  
+                  --reporter-junit-export 'petclinic-report.xml'
+                  --reporter : { html : { export : 'petclinic-report.html', template: './customTemplate.hbs' } }
           """
         }
       }
       post {
         always {
-          junit 'petclinic-report.html'
+          junit 'petclinic-report.xml'
         }
       }
     }    
