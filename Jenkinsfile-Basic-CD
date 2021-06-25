@@ -13,7 +13,8 @@ pipeline {
     IMAGE_REPO = 'repo-spring-petclinic-rest'
     IMAGE_NAME = 'spring-petclinic-rest'
     IMAGE_TAG = sh(returnStdout: true, script: '(git rev-parse --short HEAD && echo "_$BUILD_NUMBER") | tr -d "\n"').trim()
-    APP_URL='<NLB_DNS_Name>'APP_PORT=80
+    APP_URL='<NLB_DNS_Name>'
+    APP_PORT=80
   }
 
   stages {
