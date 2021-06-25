@@ -18,6 +18,36 @@ pipeline {
   }
 
   stages {
+      stage('Build') {
+          steps {
+            container('maven') {
+              sh 'mvn clean compile'
+            }
+          }
+        }
+        stage('Unit Test') {
+          steps {
+            container('maven') {
+              sh 'mvn test'
+            }
+          }
+          post {
+            always {
+              junit 'target/surefire-reports/*.xml'
+              step([ $class: 'JacocoPublisher' ])
+            }
+          }
+        }
+        stage('Static Code Analysis') {
+          steps {
+            configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
+              container('maven') {
+                sh 'mvn sonar:sonar -s $MAVEN_SETTINGS'
+              }
+            }
+          }
+        }
+  
     stage('Package') {
       steps {
         container('maven') {
