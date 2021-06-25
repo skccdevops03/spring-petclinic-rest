@@ -65,5 +65,18 @@ pipeline {
       }
     }
     
+      stage('API Test') {
+      steps {
+        container('newman') {
+          sh """            newman run hello-world.postman_collection.json \                  --env-var 'host_url=${APP_URL}' --env-var 'port=${APP_PORT}' \                  --reporters cli,junit \                  --reporter-junit-export 'target/newman/hello-world-report.xml'"""
+        }
+      }
+      post {
+        always {
+          junit 'target/newman/*.xml'
+        }
+      }
+    }
+    
   }
 }
