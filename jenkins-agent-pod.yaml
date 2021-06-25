@@ -27,6 +27,11 @@ spec:
     command:
     - cat
     tty: true
+  - name: newman
+    image: postman/newman
+    command:
+    - cat
+    tty: true
   serviceAccountName: petclinic-sa
   securityContext:
     runAsUser: 0
