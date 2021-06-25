@@ -84,7 +84,7 @@ pipeline {
       }
       post {
         always {
-          junit 'petclinic-report.xml'
+          junit 'petclinic-report.html'
         }
       }
     }    
