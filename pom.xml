@@ -150,6 +150,21 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <executions>
+				         <execution>
+				           <phase> <!-- a lifecycle phase --> </phase>
+				           <configuration>
+				             <target>
+				              <copy file="./src/main/resources/extlib/scouter.agent.jar" tofile="./target/scouter.agent.jar"/>
+				              <copy file="./src/main/resources/extlib/scouter.conf" tofile="./target/scouter.conf"/>
+				             </target>
+				           </configuration>
+				           <goals>
+				             <goal>run</goal>
+				           </goals>
+				         </execution>
+		        </executions>
+                
+                <executions>
                     <execution>
                         <!-- Spring Boot Actuator displays build-related information
                           if a META-INF/build-info.properties file is present -->
