@@ -173,21 +173,7 @@
                             </additionalProperties>
                         </configuration>
                     </execution>
-                </executions>
-                <executions>
-                           <execution>
-                             <phase> <!-- a lifecycle phase --> </phase>
-                             <configuration>
-                               <target>
-                                <copy file="./scouter.agent.jar" tofile="./target/scouter.agent.jar"/>
-                                <copy file="./scouter.conf" tofile="./target/scouter.conf"/>
-                               </target>
-                             </configuration>
-                             <goals>
-                               <goal>run</goal>
-                             </goals>
-                           </execution>
-                        </executions>
+                </executions>                
             
             </plugin>
 
