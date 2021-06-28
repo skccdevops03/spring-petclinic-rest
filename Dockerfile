@@ -1,4 +1,4 @@
-FROM openjdk:11-jdk-slim
+FROM adoptopenjdk/openjdk11:alpine-jre
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
 ADD Scouter/scouter.agent.jar scouter.agent.jar
