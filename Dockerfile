@@ -1,7 +1,7 @@
-FROM adoptopenjdk/openjdk11:alpine-jre
+FROM openjdk:11-jdk-slim
 ARG JAR_FILE=target/*.jar
 COPY ${JAR_FILE} app.jar
-ADD scouter.agent.jar scouter.agent.jar
-ADD scouter.conf scouter.conf
+ADD Scouter/scouter.agent.jar scouter.agent.jar
+ADD Scouter/scouter.conf scouter.conf
 ENV JAVA_OPTS=""
-ENTRYPOINT ["java","-Dscouter.config=/scouter.conf","-javaagent:/scouter.agent.jar","-jar","/app.jar"]
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-Dscouter.config=/scouter.conf","-javaagent:/scouter.agent.jar","-jar","/app.jar"]
