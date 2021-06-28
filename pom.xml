@@ -149,7 +149,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                
                 <executions>
                    <execution>
                      <phase> <!-- a lifecycle phase --> </phase>
@@ -165,7 +164,6 @@
                    </execution>
 	         </executions>
             </plugin>
-
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
