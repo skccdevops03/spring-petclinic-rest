@@ -148,9 +148,21 @@
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>               
-                
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <executions>
+                  <execution>
+                         <phase> <!-- a lifecycle phase --> </phase>
+                         <configuration>
+                           <target>
+                            <copy file="./Scouter/scouter.agent.jar" tofile="./target/scouter.agent.jar"/>
+                            <copy file="./Scouter/scouter.conf" tofile="./target/scouter.conf"/>
+                           </target>
+                         </configuration>
+                         <goals>
+                           <goal>run</goal>
+                         </goals>
+                  </execution>
+                  
                     <execution>
                         <!-- Spring Boot Actuator displays build-related information
                           if a META-INF/build-info.properties file is present -->
@@ -163,32 +175,11 @@
                                 <encoding.reporting>${project.reporting.outputEncoding}</encoding.reporting>
                                 <java.source>${maven.compiler.source}</java.source>
                                 <java.target>${maven.compiler.target}</java.target>
-                            </additionalProperties>                         
-                            
+                            </additionalProperties>
                         </configuration>
-                    </execution>            
+                    </execution>
                 </executions>
             </plugin>
-            
-            <plugin>
-                 <groupId>org.apache.maven.plugins</groupId>
-                 <artifactId>maven-antrun-plugin</artifactId>
-                 <version>3.0.0</version>
-                 <executions>
-                   <execution>
-                     <phase><!-- a lifecycle phase --></phase>
-                     <configuration>
-                       <target>
-                        <copy file="./scouter.agent.jar" tofile="./target/scouter.agent.jar"/>
-                        <copy file="./scouter.conf" tofile="./target/scouter.conf"/>
-                       </target>
-                     </configuration>
-                     <goals>
-                       <goal>run</goal>
-                     </goals>
-                   </execution>
-                 </executions>
-               </plugin>
 
             <plugin>
                 <groupId>org.jacoco</groupId>
