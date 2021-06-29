@@ -22,6 +22,7 @@ pipeline {
      
        stage('PerforfmanceTest') {
           steps {
+           container('jmeter') {
              sh """
                 JVM_ARGS="-Xms1G -Xmx1G" && export JVM_ARGS && /usr/local/jmeter/apache-jmeter-5.4.1/bin/jmeter.sh \
                 -n -f -t PerformanceTest/TS01_TC01_AWSPipeline.jmx -Jurl=${PerfURL} \
