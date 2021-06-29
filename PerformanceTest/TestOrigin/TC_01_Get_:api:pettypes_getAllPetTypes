@@ -1,0 +1,42 @@
+General
+Request URL: http://ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com/petclinic/api/pettypes
+Request Method: POST
+Status Code: 201 
+Remote Address: [64:ff9b::323:2886]:80
+Referrer Policy: strict-origin-when-cross-origin
+
+Response Headers
+Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+Connection: keep-alive
+Content-Type: application/json
+Date: Mon, 28 Jun 2021 23:36:39 GMT
+Expires: 0
+Location: http://ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com/petclinic/api/pettypes/0
+Pragma: no-cache
+Transfer-Encoding: chunked
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+X-XSS-Protection: 1; mode=block
+
+Request Headers
+accept: application/json
+Accept-Encoding: gzip, deflate
+Accept-Language: ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7
+Connection: keep-alive
+Content-Length: 32
+Content-Type: application/json
+Cookie: SCOUTER=x79dpuvq2hbea5
+Host: ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com
+Origin: http://ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com
+Referer: http://ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com/petclinic/swagger-ui.html
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36
+
+RequestPayload
+{id: 0, name: "kkt01"}
+
+{
+    name: "kkt01"
+}
