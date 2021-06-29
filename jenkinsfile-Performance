@@ -45,5 +45,6 @@ pipeline {
               perfReport 'PerformanceTest/TestResult/Result_${BUILD_NUMBER}.jtl'
             }
           } 
+        }
   }
 }
