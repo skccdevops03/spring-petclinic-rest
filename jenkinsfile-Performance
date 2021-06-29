@@ -22,7 +22,7 @@ pipeline {
      stage('PerforfmanceTest') {
        steps {
          container('jmeter') {
-         git url: 'https://github.com/skccdevops03/spring-petclinic-rest.git',credentialsId: 'git_skccdevops03',usernameVariable: 'GIT_USER',passwordVariable: 'GIT_PWD',branch: 'master'
+         git url: 'https://github.com/skccdevops03/spring-petclinic-rest.git',credentialsId: 'git_skccdevops03',Username: 'GIT_USER',Password: 'GIT_PWD',branch: 'master'
          sh """
          JVM_ARGS="-Xms1G -Xmx1G" && export JVM_ARGS && /usr/local/jmeter/apache-jmeter-5.4.1/bin/jmeter.sh \
          -n -f -t PerformanceTest/TS01_TC01_AWSPipeline.jmx -Jurl=${PerfURL} \
