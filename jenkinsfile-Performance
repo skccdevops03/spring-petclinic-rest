@@ -47,7 +47,7 @@ pipeline {
       }
       post {
         always {
-          perfReport 'Result_${BUILD_NUMBER}.jtl'
+          perfReport 'PerformanceTest/TestResult/Result_${BUILD_NUMBER}.jtl'
         }
       }
     }    
