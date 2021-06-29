@@ -28,15 +28,12 @@ pipeline {
             -l PerformanceTest/TestResult/Result_${BUILD_NUMBER}.jtl \
             -e -o PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}
           """
-          
-          sh """
+          sh """
           mv jmeter.log PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}/jmeter.log
           """
-          
-          sh """
+          sh """
           git add . && git commit -am 'Publish Jmeter result' && git push origin HEAD:master"
           """
-          
         }
       }
       post {
