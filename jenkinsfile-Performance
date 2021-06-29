@@ -37,7 +37,10 @@ pipeline {
 
               sh """
               mv jmeter.log PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}/jmeter.log
-              """                
+              """
+              sh """
+              git add . && git commit -am 'Publish Jmeter result' && git push origin HEAD:master"
+              """
             }
           }
           post {
