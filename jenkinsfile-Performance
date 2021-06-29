@@ -22,9 +22,7 @@ pipeline {
      
        stage('PerforfmanceTest') {
           steps {
-              withCredentials([usernamePassword(credentialsId: 'git_skccdevops03', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PWD')]) {
-            container('jmeter') {
-              sh """
+             sh """
                 JVM_ARGS="-Xms1G -Xmx1G" && export JVM_ARGS && /usr/local/jmeter/apache-jmeter-5.4.1/bin/jmeter.sh \
                 -n -f -t PerformanceTest/TS01_TC01_AWSPipeline.jmx -Jurl=${PerfURL} \
                 -l PerformanceTest/TestResult/Result_${BUILD_NUMBER}.jtl \
@@ -37,7 +35,6 @@ pipeline {
               
               sh "git add . && git commit -am 'Publish Jmeter result' && git push origin HEAD:master"
             }
-          }
           }
           post {
             always {
