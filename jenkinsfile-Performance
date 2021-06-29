@@ -36,12 +36,11 @@ pipeline {
           """
           }
        }
-      post {
-        always {
-          perfReport 'PerformanceTest/TestResult/Result_${BUILD_NUMBER}.jtl'
-        }
-      }
-    }
-       
-  }
-}
+       post {
+       always {
+        perfReport 'PerformanceTest/TestResult/Result_${BUILD_NUMBER}.jtl'
+       }
+       }
+       }
+       }
+       }
