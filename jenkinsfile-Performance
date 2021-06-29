@@ -21,25 +21,25 @@ pipeline {
   stages {
      
        stage('PerforfmanceTest') {
-      steps {
-        container('jmeter') {
-          
-          git url: 'https://github.com/skccdevops03/spring-petclinic-rest.git',
-                  credentialsId: 'git_skccdevops03',
-                    branch: 'master'
-                    
-          sh """
-            JVM_ARGS="-Xms1G -Xmx1G" && export JVM_ARGS && /usr/local/jmeter/apache-jmeter-5.4.1/bin/jmeter.sh \
-            -n -f -t PerformanceTest/TS01_TC01_AWSPipeline.jmx -Jurl=${PerfURL} \
-            -l PerformanceTest/TestResult/Result_${BUILD_NUMBER}.jtl \
-            -e -o PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}
-          """
-          
-          sh """
-          mv jmeter.log PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}/jmeter.log
-          """                
-        }
-      }
+          steps {
+            container('jmeter') {
+
+              git url: 'https://github.com/skccdevops03/spring-petclinic-rest.git',
+                      credentialsId: 'git_skccdevops03',
+                        branch: 'master'
+
+              sh """
+                JVM_ARGS="-Xms1G -Xmx1G" && export JVM_ARGS && /usr/local/jmeter/apache-jmeter-5.4.1/bin/jmeter.sh \
+                -n -f -t PerformanceTest/TS01_TC01_AWSPipeline.jmx -Jurl=${PerfURL} \
+                -l PerformanceTest/TestResult/Result_${BUILD_NUMBER}.jtl \
+                -e -o PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}
+              """
+
+              sh """
+              mv jmeter.log PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}/jmeter.log
+              """                
+            }
+          }
         post {
         always {
           perfReport 'PerformanceTest/TestResult/Result_${BUILD_NUMBER}.jtl'
