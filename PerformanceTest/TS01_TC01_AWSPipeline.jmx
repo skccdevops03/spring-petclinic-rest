@@ -28,7 +28,7 @@
         <stringProp name="TargetLevel">2</stringProp>
         <stringProp name="RampUp">20</stringProp>
         <stringProp name="Steps">2</stringProp>
-        <stringProp name="Hold">300</stringProp>
+        <stringProp name="Hold">60</stringProp>
         <stringProp name="LogFilename"></stringProp>
         <stringProp name="Iterations"></stringProp>
         <stringProp name="Unit">S</stringProp>
@@ -112,7 +112,7 @@
         <stringProp name="TargetLevel">2</stringProp>
         <stringProp name="RampUp">30</stringProp>
         <stringProp name="Steps">2</stringProp>
-        <stringProp name="Hold">300</stringProp>
+        <stringProp name="Hold">60</stringProp>
         <stringProp name="LogFilename"></stringProp>
         <stringProp name="Iterations"></stringProp>
         <stringProp name="Unit">S</stringProp>
@@ -178,7 +178,7 @@
           </ResponseAssertion>
           <hashTree/>
           <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Constant Timer" enabled="true">
-            <stringProp name="ConstantTimer.delay">30000</stringProp>
+            <stringProp name="ConstantTimer.delay">10000</stringProp>
           </ConstantTimer>
           <hashTree/>
         </hashTree>
