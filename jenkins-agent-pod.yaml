@@ -32,6 +32,11 @@ spec:
     command:
     - cat
     tty: true
+  - name: jmeter
+    image: silver790310/jmeter:v2
+    command:
+    - cat
+    tty: true
   serviceAccountName: petclinic-sa
   securityContext:
     runAsUser: 0
