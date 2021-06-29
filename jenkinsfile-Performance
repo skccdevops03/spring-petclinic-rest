@@ -30,19 +30,24 @@ pipeline {
                     
           sh """
             JVM_ARGS="-Xms1G -Xmx1G" && export JVM_ARGS && /usr/local/jmeter/apache-jmeter-5.4.1/bin/jmeter.sh \
-            -n -f -t jenkins/dev/product/jmeter-pipeline/JPetstore.jmx \
-            -l jenkins/dev/product/jmeter-pipeline/Result_${BUILD_NUMBER}.jtl \
-            -e -o jenkins/dev/product/jmeter-pipeline/result_html_${BUILD_NUMBER}
-            newman run api_test.json \
-                  --env-var 'baseUrl=${APP_URL}' --env-var 'petTypeId=""'\
-                  --reporters cli,junit \
-                  --reporter-junit-export 'petclinic-report.xml'
+            -n -f -t PerformanceTest/TS01_TC01_AWSPipeline.jmx -Jurl=${PerfURL} \
+            -l PerformanceTest/TestResult/Result_${BUILD_NUMBER}.jtl \
+            -e -o PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}
           """
+          
+          sh """
+          mv jmeter.log PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}/jmeter.log
+          """
+          
+          sh """
+          git add . && git commit -am 'Publish Jmeter result' && git push origin HEAD:master"
+          sh """
+          
         }
       }
       post {
         always {
-          junit 'petclinic-report.xml'
+          perfReport 'Result_${BUILD_NUMBER}.jtl'
         }
       }
     }    
