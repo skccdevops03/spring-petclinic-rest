@@ -20,7 +20,7 @@ pipeline {
 
   stages {
      stage('PerforfmanceTest') {
-       withCredentials([usernamePassword(credentialsId: 'git_skccdevops03', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PWD')]) {
+     withCredentials([usernamePassword(credentialsId: 'git_skccdevops03', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PWD')]) {
        steps {
          container('jmeter') {
                   
