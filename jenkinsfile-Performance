@@ -39,7 +39,7 @@ pipeline {
          git config --global user.email 'skcc.devops03@sk.com'
          """
          sh """
-         git add . && git commit -m 'Publish Jmeter result' && git push
+         git add . && git commit -m 'Publish Jmeter result' && git push origin HEAD:master
          """
          }
          }
