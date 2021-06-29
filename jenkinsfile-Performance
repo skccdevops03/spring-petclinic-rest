@@ -34,8 +34,8 @@ pipeline {
           sh """
           git add . && git commit -am 'Publish Jmeter result' && git push origin HEAD:master"
           """
-        }
-      }
+          }
+       }
       post {
         always {
           perfReport 'PerformanceTest/TestResult/Result_${BUILD_NUMBER}.jtl'
