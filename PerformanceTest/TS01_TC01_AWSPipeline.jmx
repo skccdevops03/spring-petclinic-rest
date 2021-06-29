@@ -396,7 +396,7 @@
             <connectTime>true</connectTime>
           </value>
         </objProp>
-        <stringProp name="filename">./TestResult/${__TestPlanName}_${__time(yyyyMMddHHmmss,)}/ActiveThreads.jtl</stringProp>
+        <stringProp name="filename"></stringProp>
         <longProp name="interval_grouping">500</longProp>
         <boolProp name="graph_aggregated">false</boolProp>
         <stringProp name="include_sample_labels"></stringProp>
@@ -441,7 +441,7 @@
             <connectTime>true</connectTime>
           </value>
         </objProp>
-        <stringProp name="filename">./TestResult/${__TestPlanName}_${__time(yyyyMMddHHmmss,)}/FilterByTimeOffset.jtl</stringProp>
+        <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
       <ResultCollector guiclass="my.jmeter.plugin.visualizer.StatVisualizer" testclass="ResultCollector" testname="[STEN] - Dash Board" enabled="true">
@@ -478,7 +478,7 @@
             <connectTime>true</connectTime>
           </value>
         </objProp>
-        <stringProp name="filename">./TestResult/${__TestPlanName}_${__time(yyyyMMddHHmmss,)}/DashBoard.jtl</stringProp>
+        <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
       <ResultCollector guiclass="TableVisualizer" testclass="ResultCollector" testname="View Results in Table" enabled="true">
@@ -515,7 +515,7 @@
             <connectTime>true</connectTime>
           </value>
         </objProp>
-        <stringProp name="filename">./TestResult/${__TestPlanName}_${__time(yyyyMMddHHmmss,)}/ViewResultsinTable.jtl</stringProp>
+        <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
       <ResultCollector guiclass="my.jmeter.plugin.threadinfo.ThreadVisualizer" testclass="ResultCollector" testname="[STEN] - Thread Info" enabled="true">
@@ -552,7 +552,7 @@
             <connectTime>true</connectTime>
           </value>
         </objProp>
-        <stringProp name="filename">./TestResult/${__TestPlanName}_${__time(yyyyMMddHHmmss,)}/ThreadInfo.jtl</stringProp>
+        <stringProp name="filename"></stringProp>
       </ResultCollector>
       <hashTree/>
       <kg.apc.jmeter.vizualizers.CorrectedResultCollector guiclass="kg.apc.jmeter.vizualizers.ResponseTimesOverTimeGui" testclass="kg.apc.jmeter.vizualizers.CorrectedResultCollector" testname="jp@gc - Response Times Over Time" enabled="true">
@@ -589,7 +589,7 @@
             <connectTime>true</connectTime>
           </value>
         </objProp>
-        <stringProp name="filename">./TestResult/${__TestPlanName}_${__time(yyyyMMddHHmmss,)}/ResponseTimes.jtl</stringProp>
+        <stringProp name="filename"></stringProp>
         <longProp name="interval_grouping">500</longProp>
         <boolProp name="graph_aggregated">false</boolProp>
         <stringProp name="include_sample_labels"></stringProp>
@@ -634,7 +634,7 @@
             <connectTime>true</connectTime>
           </value>
         </objProp>
-        <stringProp name="filename">./TestResult/${__TestPlanName}_${__time(yyyyMMddHHmmss,)}/TPS.jtl</stringProp>
+        <stringProp name="filename"></stringProp>
         <longProp name="interval_grouping">1000</longProp>
         <boolProp name="graph_aggregated">false</boolProp>
         <stringProp name="include_sample_labels"></stringProp>
@@ -679,7 +679,7 @@
             <connectTime>true</connectTime>
           </value>
         </objProp>
-        <stringProp name="filename">./TestResult/${__TestPlanName}_${__time(yyyyMMddHHmmss,)}/Network.jtl</stringProp>
+        <stringProp name="filename"></stringProp>
         <longProp name="interval_grouping">1000</longProp>
         <boolProp name="graph_aggregated">false</boolProp>
         <stringProp name="include_sample_labels"></stringProp>
