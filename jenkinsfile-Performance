@@ -1,1 +1,46 @@
+pipeline {
+  agent {
+    kubernetes {
+      label 'petclinic-cd'
+      yamlFile 'jenkins-agent-pod.yaml'
+    }
+  }
 
+  environment {
+    REGISTRY_URL = '54.180.16.187:8000'
+    REGISTRY_CREDENTIALS = 'Harbor-docker-registry'
+    APP_IMAGE = null
+    IMAGE_REPO = 'repo-spring-petclinic-rest'
+    IMAGE_NAME = 'spring-petclinic-rest'
+    IMAGE_TAG = sh(returnStdout: true, script: '(git rev-parse --short HEAD && echo "_$BUILD_NUMBER") | tr -d "\n"').trim()
+    APP_URL='http://ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com/petclinic'
+    APP_PORT=80
+    PerfURL='ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com'
+  }
+
+  stages {
+     
+       stage('API Test') {
+      steps {
+        container('newman') {
+          
+          git url: 'https://github.com/skccdevops03/spring-petclinic-rest.git',
+                  credentialsId: 'git_skccdevops03',
+                    branch: 'master'
+                    
+          sh """
+            newman run api_test.json \
+                  --env-var 'baseUrl=${APP_URL}' --env-var 'petTypeId=""'\
+                  --reporters cli,junit \
+                  --reporter-junit-export 'petclinic-report.xml'
+          """
+        }
+      }
+      post {
+        always {
+          junit 'petclinic-report.xml'
+        }
+      }
+    }    
+  }
+}
