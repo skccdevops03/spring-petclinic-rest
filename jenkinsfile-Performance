@@ -34,6 +34,9 @@ pipeline {
          sh """
          git add .
          """
+         sh """
+         git commit -m "JMeter"
+         """
          }
          }
        post {
