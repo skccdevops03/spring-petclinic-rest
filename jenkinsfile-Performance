@@ -20,7 +20,7 @@ pipeline {
 
   stages {
      
-       stage('API Test') {
+       stage('PerforfmanceTest') {
       steps {
         container('jmeter') {
           
@@ -41,7 +41,7 @@ pipeline {
           
           sh """
           git add . && git commit -am 'Publish Jmeter result' && git push origin HEAD:master"
-          sh """
+          """
           
         }
       }
