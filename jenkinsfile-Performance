@@ -22,13 +22,17 @@ pipeline {
      
        stage('API Test') {
       steps {
-        container('newman') {
+        container('jmeter') {
           
           git url: 'https://github.com/skccdevops03/spring-petclinic-rest.git',
                   credentialsId: 'git_skccdevops03',
                     branch: 'master'
                     
           sh """
+            JVM_ARGS="-Xms1G -Xmx1G" && export JVM_ARGS && /usr/local/jmeter/apache-jmeter-5.4.1/bin/jmeter.sh \
+            -n -f -t jenkins/dev/product/jmeter-pipeline/JPetstore.jmx \
+            -l jenkins/dev/product/jmeter-pipeline/Result_${BUILD_NUMBER}.jtl \
+            -e -o jenkins/dev/product/jmeter-pipeline/result_html_${BUILD_NUMBER}
             newman run api_test.json \
                   --env-var 'baseUrl=${APP_URL}' --env-var 'petTypeId=""'\
                   --reporters cli,junit \
