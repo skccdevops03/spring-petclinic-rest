@@ -23,6 +23,8 @@ pipeline {
        steps {
          container('jmeter') {
          sh """
+         git checkout origin/master
+         git config remote.origin.url https://github.com/skccdevops03/spring-petclinic-rest.git
          git config --global user.name 'skccdevops03'
          git config --global user.email 'skcc.devops03@sk.com'
          git config --global credential.helper cache
@@ -38,7 +40,7 @@ pipeline {
          mv jmeter.log PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}/jmeter.log
          """
          sh """
-         git pull && git add . && git commit -am 'Publish Jmeter result' && git push origin master
+         git add . && git commit -am 'Publish Jmeter result' && git push origin master
          """
          }
          }
