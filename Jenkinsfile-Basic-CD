@@ -15,6 +15,7 @@ pipeline {
     IMAGE_TAG = sh(returnStdout: true, script: '(git rev-parse --short HEAD && echo "_$BUILD_NUMBER") | tr -d "\n"').trim()
     APP_URL='http://ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com/petclinic'
     APP_PORT=80
+    PerfURL='ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com'
   }
 
   stages {
@@ -96,6 +97,38 @@ pipeline {
         """
       }
     }
+    
+    stage('PerforfmanceTest') {
+       steps {
+       withCredentials([usernamePassword(credentialsId: 'git_skccdevops03', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PWD')]) {
+         container('jmeter') {
+         sh """
+         git checkout origin/master
+         git config remote.origin.url https://${GIT_USER}:${GIT_PWD}@github.com/skccdevops03/spring-petclinic-rest.git
+         git config --global user.email 'skcc.devops03@sk.com'
+         git config --global user.name '${GIT_USER}'
+          """
+          
+         sh """
+         JVM_ARGS="-Xms1G -Xmx1G" && export JVM_ARGS && /usr/local/jmeter/apache-jmeter-5.4.1/bin/jmeter.sh \
+         -n -f -t PerformanceTest/TS01_TC01_AWSPipeline.jmx -Jurl=${PerfURL} \
+         -l PerformanceTest/TestResult/Result_${BUILD_NUMBER}.jtl \
+         -e -o PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}
+         mv jmeter.log PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}/jmeter.log
+         """
+         
+         sh """
+         git add . && git commit -am 'Publish Jmeter result' && git push origin HEAD:master 
+         """
+         }
+         }
+         }
+       post {
+       always {
+       perfReport 'PerformanceTest/TestResult/Result_${BUILD_NUMBER}.jtl'
+       }
+       }
+       }
     
        stage('API Test') {
       steps {
