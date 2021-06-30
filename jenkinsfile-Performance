@@ -24,10 +24,6 @@ pipeline {
          container('jmeter') {
          sh """
          git checkout origin/master
-          git config --global user.name 'skccdevops03'
-          git config --global user.email 'skcc.devops03@sk.com'
-          git config --global credential.helper cache
-          git config --global push.default simple
         """
          
          sh """
