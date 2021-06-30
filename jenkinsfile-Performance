@@ -22,13 +22,7 @@ pipeline {
      stage('PerforfmanceTest') {
        steps {
          container('jmeter') {
-         sh """
-         git checkout origin/master
-         git config --global user.name 'skccdevops03'
-         git config --global user.email 'skcc.devops03@sk.com'
-         git config --global credential.helper cache
-         git config --global push.default simple
-        """
+         
          sh """
          JVM_ARGS="-Xms1G -Xmx1G" && export JVM_ARGS && /usr/local/jmeter/apache-jmeter-5.4.1/bin/jmeter.sh \
          -n -f -t PerformanceTest/TS01_TC01_AWSPipeline.jmx -Jurl=${PerfURL} \
@@ -39,7 +33,7 @@ pipeline {
          mv jmeter.log PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}/jmeter.log
          """
          sh """
-         git init && git add . && git commit -m 'Publish Jmeter result' && git remote add origin "github.com/skccdevops03/spring-petclinic-rest.git && git push -u origin master"
+         git add . && git commit -m 'Publish Jmeter result' && git push -u origin master"
          """
          }
          }
