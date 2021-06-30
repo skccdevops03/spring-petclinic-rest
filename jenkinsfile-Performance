@@ -29,8 +29,9 @@ pipeline {
           git config --global credential.helper cache
           git config --global push.default simple
           """
-          git url: 'https://github.com/skccdevops03/spring-petclinic-rest.git',credentialsId: 'git_skccdevops03',branch: 'master'
           git init
+          git url: 'https://github.com/skccdevops03/spring-petclinic-rest.git',credentialsId: 'git_skccdevops03',branch: 'master'
+          
          
          sh """
          JVM_ARGS="-Xms1G -Xmx1G" && export JVM_ARGS && /usr/local/jmeter/apache-jmeter-5.4.1/bin/jmeter.sh \
