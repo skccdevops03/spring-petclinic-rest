@@ -23,7 +23,12 @@ pipeline {
        steps {
        withCredentials([usernamePassword(credentialsId: 'git_skccdevops03', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PWD')]) {
          container('jmeter') {
-         
+         sh """
+          git config --global user.name 'skccdevops03'
+          git config --global user.email 'skcc.devops03@sk.com'
+          git config --global credential.helper cache
+          git config --global push.default simple
+          """
          sh """
          JVM_ARGS="-Xms1G -Xmx1G" && export JVM_ARGS && /usr/local/jmeter/apache-jmeter-5.4.1/bin/jmeter.sh \
          -n -f -t PerformanceTest/TS01_TC01_AWSPipeline.jmx -Jurl=${PerfURL} \
