@@ -22,13 +22,15 @@ pipeline {
      stage('PerforfmanceTest') {
        steps {
          container('jmeter') {
-         git url: 'https://github.com/skccdevops03/spring-petclinic-rest.git',credentialsId: 'git_skccdevops03',branch: 'master'
+         
          sh """
           git config --global user.name 'skccdevops03'
           git config --global user.email 'skcc.devops03@sk.com'
           git config --global credential.helper cache
           git config --global push.default simple
           """
+          git url: 'https://github.com/skccdevops03/spring-petclinic-rest.git',credentialsId: 'git_skccdevops03',branch: 'master'
+          git init
          
          sh """
          JVM_ARGS="-Xms1G -Xmx1G" && export JVM_ARGS && /usr/local/jmeter/apache-jmeter-5.4.1/bin/jmeter.sh \
@@ -40,7 +42,7 @@ pipeline {
          mv jmeter.log PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}/jmeter.log
          """
          sh """
-         git init && git remote set-url origin "github.com/skccdevops03/spring-petclinic-rest.git" && git add PerformanceTest/TestResult/Result_html_${BUILD_NUMBER} && git commit -m 'Publish Jmeter result' && git push origin HEAD:master 
+         git add PerformanceTest/TestResult/Result_html_${BUILD_NUMBER} && git commit -m 'Publish Jmeter result' && git push origin HEAD:master 
          """
          }
          }
