@@ -40,7 +40,7 @@ pipeline {
          mv jmeter.log PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}/jmeter.log
          """
          sh """
-         git remote rm origin && git init && git remote add origin "github.com/skccdevops03/spring-petclinic-rest.git" && git add PerformanceTest/TestResult/Result_html_${BUILD_NUMBER} && git commit -m 'Publish Jmeter result' && git push origin HEAD:master 
+         git remote rm origin && git remote add origin "github.com/skccdevops03/spring-petclinic-rest.git" && git init && git add PerformanceTest/TestResult/Result_html_${BUILD_NUMBER} && git commit -m 'Publish Jmeter result' && git push origin HEAD:master 
          """
          }
          }
