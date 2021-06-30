@@ -24,24 +24,22 @@ pipeline {
        withCredentials([usernamePassword(credentialsId: 'git_skccdevops03', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PWD')]) {
          container('jmeter') {
          sh """
-          git config --global user.name 'skccdevops03'
-          git config --global user.email 'skcc.devops03@sk.com'
-          git config --global credential.helper cache
-          git config --global push.default simple
+         git checkout origin/master
+         git config remote.origin.url https://${GIT_USER}:${GIT_PWD}@github.com/skccdevops03/spring-petclinic-rest.git
+         git config --global user.email 'skcc.devops03@sk.com'
+         git config --global user.name '${GIT_USER}'
           """
-          git url: 'https://github.com/skccdevops03/spring-petclinic-rest.git',credentialsId: 'git_skccdevops03',branch: 'master'
           
          sh """
          JVM_ARGS="-Xms1G -Xmx1G" && export JVM_ARGS && /usr/local/jmeter/apache-jmeter-5.4.1/bin/jmeter.sh \
          -n -f -t PerformanceTest/TS01_TC01_AWSPipeline.jmx -Jurl=${PerfURL} \
          -l PerformanceTest/TestResult/Result_${BUILD_NUMBER}.jtl \
          -e -o PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}
-         """
-         sh """
          mv jmeter.log PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}/jmeter.log
          """
+         
          sh """
-         git add PerformanceTest/TestResult/Result_html_${BUILD_NUMBER} && git commit -m 'Publish Jmeter result' && git push origin HEAD:master 
+         git add . && git commit -am 'Publish Jmeter result' && git push origin HEAD:master 
          """
          }
          }
