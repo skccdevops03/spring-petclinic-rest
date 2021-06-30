@@ -22,9 +22,7 @@ pipeline {
      stage('PerforfmanceTest') {
        steps {
          container('jmeter') {
-         sh """
-         git checkout origin/master
-        """
+         
          
          sh """
          JVM_ARGS="-Xms1G -Xmx1G" && export JVM_ARGS && /usr/local/jmeter/apache-jmeter-5.4.1/bin/jmeter.sh \
@@ -36,7 +34,7 @@ pipeline {
          mv jmeter.log PerformanceTest/TestResult/Result_html_${BUILD_NUMBER}/jmeter.log
          """
          sh """
-         git add . && git commit -m 'Publish Jmeter result' && git push origin HEAD:master
+         git init && git add Result_html_${BUILD_NUMBER} && git commit -m 'Publish Jmeter result' && git push origin HEAD:master
          """
          }
          }
