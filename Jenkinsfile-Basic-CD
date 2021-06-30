@@ -134,9 +134,7 @@ pipeline {
       steps {
         container('newman') {
           
-          git url: 'https://github.com/skccdevops03/spring-petclinic-rest.git',
-                  credentialsId: 'git_skccdevops03',
-                    branch: 'master'
+          
                     
           sh """
             newman run api_test.json \
