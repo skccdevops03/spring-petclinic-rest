@@ -28,8 +28,8 @@ pipeline {
           container('argocd') {
                 sh """
                 ARGOCD_SERVER="aa9253ce144b64dca839f6ac0e1ba557-1293852278.ap-northeast-2.elb.amazonaws.com"
-                ARGOCD_SERVER=$ARGOCD_SERVER argocd app sync ${argocdAppPrefix}
-                ARGOCD_SERVER=$ARGOCD_SERVER argocd app wait ${argocdAppPrefix} --timeout ${appWaitTimeout}
+                ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app sync ${argocdAppPrefix}
+                ARGOCD_SERVER=$ARGOCD_SERVER argocd --grpc-web app wait ${argocdAppPrefix} --timeout ${appWaitTimeout}
                 """
           }
        }
