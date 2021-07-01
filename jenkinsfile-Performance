@@ -23,16 +23,17 @@ pipeline {
   stages {
   
      stage('Argo'){
-        container('argo-cd-cli') {
-                withCredentials([string(credentialsId: "argo_skccdevops03", variable: 'ARGOCD_AUTH_TOKEN')]) {
-                    sh """
-                    /argocd app sync ${argocdAppPrefix}
-                    /argocd app wait ${argocdAppPrefix} --timeout ${appWaitTimeout}
-                    """
-                }
-        }
-     }
-         
+       steps {
+       withCredentials([string(credentialsId: 'argo_skccdevops03', variable: 'ARGOCD_AUTH_TOKEN')]) {
+          container('argocd') {
+                sh """
+                /argocd app sync ${argocdAppPrefix}
+                /argocd app wait ${argocdAppPrefix} --timeout ${appWaitTimeout}
+                """
+          }
+       }
+       }
+     }    
   
      stage('PerforfmanceTest') {
        steps {
