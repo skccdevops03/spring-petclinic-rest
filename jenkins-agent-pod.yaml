@@ -38,7 +38,7 @@ spec:
     - cat
     tty: true
   - name: argocd
-    image: argoproj/argocd-cli:v0.7.1
+    image: payfit/argocd-cli:latest
     command:
     - cat
     envVar:
