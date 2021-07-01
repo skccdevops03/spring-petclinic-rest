@@ -38,7 +38,7 @@ spec:
     - cat
     tty: true
   - name: argocd
-    image: argoproj/argocd-cli:v0.10.6
+    image: argoproj/argocd-cli:v0.7.1
     command:
     - cat
     envVar:
