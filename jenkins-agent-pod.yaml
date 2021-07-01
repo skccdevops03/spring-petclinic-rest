@@ -41,7 +41,7 @@ spec:
     image: argoproj/argocd-cli:v0.10.6
     command:
     - cat
-    envVars: [envVar(key: 'ARGOCD_SERVER', value: 'aa9253ce144b64dca839f6ac0e1ba557-1293852278.ap-northeast-2.elb.amazonaws.com')]
+    envVars: [envVar(key: 'ARGOCD_SERVER', value: "aa9253ce144b64dca839f6ac0e1ba557-1293852278.ap-northeast-2.elb.amazonaws.com")]
     tty: true
   serviceAccountName: petclinic-sa
   securityContext:
