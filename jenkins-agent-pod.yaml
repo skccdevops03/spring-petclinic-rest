@@ -42,7 +42,7 @@ spec:
     command:
     - cat
     envVar:
-    - key: ARGOCD_SERVER
+    - name: ARGOCD_SERVER
     - value: "aa9253ce144b64dca839f6ac0e1ba557-1293852278.ap-northeast-2.elb.amazonaws.com"
     
     tty: true
