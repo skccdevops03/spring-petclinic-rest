@@ -24,15 +24,13 @@ pipeline {
   
      stage('Argo'){
        steps {
-       withCredentials([string(credentialsId: 'argo_skccdevops03', variable: 'ARGOCD_AUTH_TOKEN')]) {
-          container('argocd') {
+        container('argocd') {
                 sh """
                 yes | argocd login --insecure aa9253ce144b64dca839f6ac0e1ba557-1293852278.ap-northeast-2.elb.amazonaws.com --username admin --password !Devops03
                 argocd app sync ${argocdAppPrefix}
                 argocd app wait ${argocdAppPrefix} --timeout ${appWaitTimeout}
                 """
           }
-       }
        }
      }    
   
