@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: petclinic-dev
+  labels:
+    component: jenkins-agent
+spec:
+  - name: jmeter
+    image: silver790310/jmeter:v2
+    command:
+    - cat
+    tty: true
+  - name: argocd
+    image: payfit/argocd-cli:latest
+    command:
+    - cat
+    envVar:
+    - name: ARGOCD_SERVER
+    - value: "aa9253ce144b64dca839f6ac0e1ba557-1293852278.ap-northeast-2.elb.amazonaws.com"
+    
+    tty: true
+  serviceAccountName: petclinic-sa
+  securityContext:
+    runAsUser: 0
+  volumes:
+    - name: m2
+      persistentVolumeClaim:
+        claimName: maven-pvc
+    - name: docker-sock
+      hostPath:
+        path: /var/run/docker.sock
