@@ -100,7 +100,7 @@ pipeline {
       }
     }
     
-    stages {
+    
   
      stage('Argo'){
        steps {
