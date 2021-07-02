@@ -98,6 +98,20 @@ pipeline {
       }
     }
     
+    stages {
+  
+     stage('Argo'){
+       steps {
+        container('argocd') {
+                sh """
+                yes | argocd login --insecure aa9253ce144b64dca839f6ac0e1ba557-1293852278.ap-northeast-2.elb.amazonaws.com --username admin --password !Devops03
+                argocd app sync ${argocdAppPrefix}
+                argocd app wait ${argocdAppPrefix} --timeout ${appWaitTimeout}
+                """
+          }
+       }
+     }    
+    
     stage('PerforfmanceTest') {
        steps {
        withCredentials([usernamePassword(credentialsId: 'git_skccdevops03', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PWD')]) {
