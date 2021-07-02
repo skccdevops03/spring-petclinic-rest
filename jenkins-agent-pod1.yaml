@@ -17,7 +17,7 @@ spec:
     - cat
     envVar:
     - name: ARGOCD_SERVER
-    - value: "kubernetes.default.svc"
+    - value: "argocd.example.com"
     tty: true
   serviceAccountName: petclinic-sa
   securityContext:
