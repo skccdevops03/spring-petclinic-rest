@@ -5,6 +5,7 @@ metadata:
   labels:
     component: jenkins-agent
 spec:
+  containers:
   - name: jmeter
     image: silver790310/jmeter:v2
     command:
