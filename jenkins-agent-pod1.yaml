@@ -15,9 +15,6 @@ spec:
     image: payfit/argocd-cli:latest
     command:
     - cat
-    envVar:
-    - name: ARGOCD_SERVER
-    - value: "https://kubernetes.default.svc"
     tty: true
   serviceAccountName: petclinic-sa
   securityContext:
