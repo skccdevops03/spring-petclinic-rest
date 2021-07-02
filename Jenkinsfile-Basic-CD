@@ -112,9 +112,8 @@ pipeline {
                 """
           }
        }
-     }    
-    
-    stage('PerforfmanceTest') {
+     }
+     stage('PerforfmanceTest') {
        steps {
        withCredentials([usernamePassword(credentialsId: 'git_skccdevops03', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PWD')]) {
          container('jmeter') {
@@ -167,4 +166,5 @@ pipeline {
       }
     }    
   }
+}
 }
