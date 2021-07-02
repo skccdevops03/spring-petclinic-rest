@@ -18,7 +18,7 @@ pipeline {
     PerfURL='ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com'
     ArgoURL='aa9253ce144b64dca839f6ac0e1ba557-1293852278.ap-northeast-2.elb.amazonaws.com'
     argocdAppPrefix='petclinic-argocd-helm'
-    appWaitTimeout = 600
+    appWaitTimeout = 60
   }
 
   stages {
@@ -111,7 +111,6 @@ pipeline {
                 yes | argocd login --insecure ${ArgoURL} --username ${ARGOCD_USER} --password ${ARGOCD_PWD}
                 argocd app sync ${argocdAppPrefix}
                 argocd app wait ${argocdAppPrefix} --timeout ${appWaitTimeout}
-                argocd logout
                 """
           }
        }
