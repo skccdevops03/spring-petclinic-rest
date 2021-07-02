@@ -27,8 +27,7 @@ pipeline {
        withCredentials([string(credentialsId: 'argo_skccdevops03', variable: 'ARGOCD_AUTH_TOKEN')]) {
           container('argocd') {
                 sh """
-                export ARGOCD_SERVER=aa9253ce144b64dca839f6ac0e1ba557-1293852278.ap-northeast-2.elb.amazonaws.com
-                export ARGOCD_AUTH_TOKEN=${ARGOCD_AUTH_TOKEN}
+                argocd login aa9253ce144b64dca839f6ac0e1ba557-1293852278.ap-northeast-2.elb.amazonaws.com --username admin --password !Devops03 --insecure -y
                 argocd app sync ${argocdAppPrefix}
                 argocd app wait ${argocdAppPrefix} --timeout ${appWaitTimeout}
                 """
