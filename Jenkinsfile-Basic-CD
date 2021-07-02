@@ -111,6 +111,7 @@ pipeline {
                 yes | argocd login --insecure ${ArgoURL} --username ${ARGOCD_USER} --password ${ARGOCD_PWD}
                 argocd app sync ${argocdAppPrefix}
                 argocd app wait ${argocdAppPrefix} --timeout ${appWaitTimeout}
+                argocd logout ${ArgoURL}
                 """
           }
        }
