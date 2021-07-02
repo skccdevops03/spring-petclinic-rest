@@ -16,6 +16,8 @@ pipeline {
     APP_URL='http://ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com/petclinic'
     APP_PORT=80
     PerfURL='ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com'
+    argocdAppPrefix='petclinic-argocd-helm'
+    appWaitTimeout = 600
   }
 
   stages {
@@ -104,7 +106,7 @@ pipeline {
        steps {
         container('argocd') {
                 sh """
-                yes | argocd login --insecure aa9253ce144b64dca839f6ac0e1ba557-1293852278.ap-northeast-2.elb.amazonaws.com --username admin --password !Devops03
+                yes | argocd login --insecure aa9253ce144b64dca839f6ac0e1ba557-1293852278.ap-northeast-2.elb.amazonaws.com --username admin --password ${argo_pwd}
                 argocd app sync ${argocdAppPrefix}
                 argocd app wait ${argocdAppPrefix} --timeout ${appWaitTimeout}
                 """
