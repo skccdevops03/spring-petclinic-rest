@@ -27,7 +27,7 @@ pipeline {
        withCredentials([string(credentialsId: 'argo_skccdevops03', variable: 'ARGOCD_AUTH_TOKEN')]) {
           container('argocd') {
                 sh """
-                echo $ARGOCD_SERVER
+                printenv
                 argocd version
                 argocd app sync ${argocdAppPrefix}
                 argocd app wait ${argocdAppPrefix} --timeout ${appWaitTimeout}
