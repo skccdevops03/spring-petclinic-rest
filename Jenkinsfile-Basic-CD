@@ -102,7 +102,7 @@ pipeline {
     }
     
     
-  
+  /*
      stage('Argo'){
        steps {
        withCredentials([usernamePassword(credentialsId: 'Argocd_credential', usernameVariable: 'ARGOCD_USER', passwordVariable: 'ARGOCD_PWD')]) {
@@ -171,4 +171,5 @@ pipeline {
       }
     }    
   }
+  */
 }
