@@ -169,7 +169,7 @@ pipeline {
           junit 'petclinic-report.xml'
         }
       }
-    }    
+    }
+    */
   }
-  */
 }
