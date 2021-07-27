@@ -16,7 +16,7 @@ pipeline {
     APP_URL='http://ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com/petclinic'
     APP_PORT=80
     PerfURL='ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com'
-    ArgoURL='aa9253ce144b64dca839f6ac0e1ba557-1293852278.ap-northeast-2.elb.amazonaws.com'
+    ArgoURL='a6543a04066ce419f906c7d9db87374e-260125718.ap-northeast-2.elb.amazonaws.com'
     argocdAppPrefix='petclinic-argocd-helm'
     appWaitTimeout = 60
   }
