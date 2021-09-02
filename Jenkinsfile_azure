@@ -7,9 +7,9 @@ pipeline {
     IMAGE_REPO = 'repo-spring-petclinic-rest'
     IMAGE_NAME = 'spring-petclinic-rest'
     IMAGE_TAG = sh(returnStdout: true, script: '(git rev-parse --short HEAD && echo "_$BUILD_NUMBER") | tr -d "\n"').trim()
-    }
     REGISTRY_URL = '20.194.61.148:8000'
     REGISTRY_CREDENTIALS = 'credential_harbor'
+    }
 
     stages {
       stage('Build') {
