@@ -51,7 +51,7 @@ pipeline {
         }
 }
 
-stage('Push Docker images_01') {
+stage('Push Docker images') {
     steps {
         script {
             docker.withRegistry(REGISTRY_URL, REGISTRY_CREDENTIALS) {
