@@ -7,7 +7,7 @@ pipeline {
     IMAGE_REPO = 'repo-spring-petclinic-rest'
     IMAGE_NAME = 'spring-petclinic-rest'
     IMAGE_TAG = sh(returnStdout: true, script: '(git rev-parse --short HEAD && echo "_$BUILD_NUMBER") | tr -d "\n"').trim()
-    REGISTRY_URL = 'https://devops03.koreacentral.cloudapp.azure.com'
+    REGISTRY_URL = 'https://20.194.61.148'
     REGISTRY_CREDENTIALS = 'credential_harbor'
     }
 
