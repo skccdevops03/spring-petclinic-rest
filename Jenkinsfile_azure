@@ -9,6 +9,7 @@ pipeline {
     IMAGE_TAG = sh(returnStdout: true, script: '(git rev-parse --short HEAD && echo "_$BUILD_NUMBER") | tr -d "\n"').trim()
     REGISTRY_URL = 'https://devops03.koreacentral.cloudapp.azure.com'
     REGISTRY_CREDENTIALS = 'credential_harbor'
+    ArgoURL='20.200.241.185'
     }
 
     stages {
