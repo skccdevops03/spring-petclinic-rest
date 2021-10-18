@@ -83,7 +83,7 @@ stage('Update manifest') {
     
     stage('Argo'){
        steps {
-       withCredentials([usernamePassword(credentialsId: 'Argocd_credential', usernameVariable: 'ARGOCD_USER', passwordVariable: 'ARGOCD_PWD')]) {
+       withCredentials([usernamePassword(credentialsId: 'credentials_argo', usernameVariable: 'ARGOCD_USER', passwordVariable: 'ARGOCD_PWD')]) {
         container('argocd') {
                 sh """
                 yes | argocd login --insecure ${ArgoURL} --username ${ARGOCD_USER} --password ${ARGOCD_PWD}
