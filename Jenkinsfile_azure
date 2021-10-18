@@ -58,6 +58,7 @@ pipeline {
         }
       }
     }
+    /*
     stage('Build Docker image') {
       steps {
         container('docker') {
@@ -115,7 +116,7 @@ stage('Update manifest') {
        }
        }
      }
-      
+      */
       
     }   
  }
