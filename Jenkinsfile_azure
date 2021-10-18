@@ -80,6 +80,22 @@ stage('Update manifest') {
         """
       }
     }
+    
+    stage('Argo'){
+       steps {
+       withCredentials([usernamePassword(credentialsId: 'Argocd_credential', usernameVariable: 'ARGOCD_USER', passwordVariable: 'ARGOCD_PWD')]) {
+        container('argocd') {
+                sh """
+                yes | argocd login --insecure ${ArgoURL} --username ${ARGOCD_USER} --password ${ARGOCD_PWD}
+                argocd app sync ${argocdAppPrefix}
+                argocd app wait ${argocdAppPrefix} --timeout ${appWaitTimeout}
+                argocd logout ${ArgoURL}
+                sleep 10
+                """
+          }
+       }
+       }
+     }
       
       
     }   
