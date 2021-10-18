@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: petclinic-dev
+  labels:
+    component: jenkins-agent
+spec:
+  containers:
+  - name: maven
+    image: 'maven:3.6.3-adoptopenjdk-11'
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+    - mountPath: '/root/.m2'
+      name: m2
+  - name: docker
+    image: docker:latest
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+    - mountPath: /var/run/docker.sock
+      name: docker-sock
+  - name: kubectl
+    image: bitnami/kubectl:latest
+    command:
+    - cat
+    tty: true
+  - name: newman
+    image: postman/newman
+    command:
+    - cat
+    tty: true
+  - name: jmeter
+    image: silver790310/jmeter:v2
+    command:
+    - cat
+    tty: true
+  - name: argocd
+    image: payfit/argocd-cli:latest
+    command:
+    - cat
+    tty: true
+  serviceAccountName: petclinic-sa
+  securityContext:
+    runAsUser: 0
+  volumes:
+    - name: m2
+      persistentVolumeClaim:
+        claimName: maven-pvc
+    - name: docker-sock
+      hostPath:
+        path: /var/run/docker.sock
