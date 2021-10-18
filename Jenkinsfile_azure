@@ -1,7 +1,7 @@
 pipeline {
   agent {
     kubernetes {
-      label 'petclinic-cd'
+      label 'azure-etclinic-cd'
       yamlFile 'jenkins-agent-pod.yal'
     }
   }
@@ -21,12 +21,12 @@ pipeline {
 
     stages {
       stage('Build') {
-          steps {
-            container('maven') {
-              sh 'mvn clean compile'
-            }
+        steps {
+          container('maven') {
+            sh 'mvn clean compile'
           }
         }
+      }
       stage('Unit Test') {
           steps {
             container('maven') {
