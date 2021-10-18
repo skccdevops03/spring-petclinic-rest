@@ -72,7 +72,7 @@ stage('Push Docker image') {
       steps {
         container('docker') {
           script {
-            docker.withRegistry('http://' + REGISTRY_URL, REGISTRY_CREDENTIALS) {
+            docker.withRegistry('https://' + REGISTRY_URL, REGISTRY_CREDENTIALS) {
               APP_IMAGE.push()
               APP_IMAGE.push('latest')
             }
