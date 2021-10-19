@@ -66,7 +66,7 @@ pipeline {
         steps {
           container('docker') {
             sh """
-              sudo systemctl start docker
+              systemctl start docker
               """
             script {
                 APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}")
