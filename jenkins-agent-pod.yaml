@@ -15,7 +15,7 @@ spec:
     - mountPath: '/root/.m2'
       name: m2
   - name: docker
-    image: docker:rc-dind
+    image: docker:latest
     command:
     - cat
     tty: true
