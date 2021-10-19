@@ -17,7 +17,6 @@ spec:
   - name: docker
     image: docker:latest
     command:
-    - sudo service docker start
     - cat
     tty: true
     volumeMounts:
