@@ -68,7 +68,7 @@ pipeline {
             APP_IMAGE = docker build -t ${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}
           """
                 
-            }
+            
         }
       }
    
