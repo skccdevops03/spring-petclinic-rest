@@ -65,7 +65,7 @@ pipeline {
       stage('Build Docker image') {
         steps {
           sh """
-            APP_IMAGE = docker build -t ${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}
+            docker build -t ${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}
           """
                 
             
