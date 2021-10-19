@@ -66,7 +66,8 @@ pipeline {
         steps {
           container('docker') {
             sh """
-              pwd
+              docker version
+              ls /var/run/
               """
             script {
                 APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}")
