@@ -15,9 +15,9 @@ spec:
     - mountPath: '/root/.m2'
       name: m2
   - name: docker
-    image: docker:17-dind
+    image: docker:dind
     command:
-    - dockerd-entrypoint.sh
+    - sudo service docker start
     tty: true
     privileged: true
   - name: kubectl
