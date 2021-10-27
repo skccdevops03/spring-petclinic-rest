@@ -6,6 +6,32 @@ metadata:
     component: jenkins-agent
 spec:
   containers:
+  - name: maven
+    image: 'maven:3.6.3-adoptopenjdk-11'
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+    - mountPath: '/root/.m2'
+      name: m2
+  - name: docker
+    image: docker:latest
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+    - mountPath: /var/run/docker.sock
+      name: docker-sock
+  - name: kubectl
+    image: bitnami/kubectl:latest
+    command:
+    - cat
+    tty: true
+  - name: newman
+    image: postman/newman
+    command:
+    - cat
+    tty: true
   - name: jmeter
     image: silver790310/jmeter:v2
     command:
