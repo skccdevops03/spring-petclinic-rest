@@ -1,9 +1,5 @@
 pipeline {
-   kubernetes {
-      label 'petclinic-cd'
-      yamlFile 'jenkins-agent-pod.yaml'
-    }
-  }
+  agent any
     
     environment {
       REGISTRY_URL = 'https://kktdevops.koreacentral.cloudapp.azure.com'
@@ -46,36 +42,30 @@ pipeline {
     		}
 		}
         stage('Package') {
-      steps {
-        container('maven') {
-          sh 'mvn clean package -DskipTests'
-          archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-        }
-      }
-    }
-    stage('Build Docker image') {
-      steps {
-        container('docker') {
-          script {
-            APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}")
-          }
-        }
-      }
-    }
-    stage('Push Docker image') {
-      steps {
-        container('docker') {
-          script {
-            docker.withRegistry('http://' + REGISTRY_URL, REGISTRY_CREDENTIALS) {
-              APP_IMAGE.push()
-              APP_IMAGE.push('latest')
+         steps {
+           sh "./mvnw package -DskipTests"
+             archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+         }
+       }
+    
+	stage('Build Docker image') {
+          steps {
+            script {
+                APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}")
             }
           }
         }
-      }
-    }
-    
- 
+        
+        stage('Push Docker image') {
+          steps {
+            script {
+              docker.withRegistry(REGISTRY_URL, REGISTRY_CREDENTIALS) {
+                APP_IMAGE.push()
+                APP_IMAGE.push('latest')
+              }
+            }
+          }
+       }
        stage('Update manifest') {
     
         steps {
@@ -95,10 +85,6 @@ pipeline {
       }
     }
     
-    
-   
-
-}
-      
+        
     }   
  }
