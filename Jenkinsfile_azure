@@ -24,12 +24,16 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh './mvnw clean compile'
+              container('maven') {
+                sh 'mvn clean compile'
+              }
             }
         }
         stage('Unit Test') {
     		steps {
-        		sh './mvnw test'
+                  container('maven') {
+        		sh 'mvn test'
+                  }
     		}
     		post {
         		always {
@@ -41,11 +45,12 @@ pipeline {
 	stage('Static Code Analysis') {
     		steps {
         		configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
-            	sh './mvnw sonar:sonar -s $MAVEN_SETTINGS'
-            	
+                          container('maven') {
+                            sh 'mvn sonar:sonar -s $MAVEN_SETTINGS'
+                          }            	
         		}
     		}
-		}
+        }
         stage('Package') {
          steps {
            container('maven') {
@@ -57,11 +62,11 @@ pipeline {
     
 	stage('Build Docker image') {
           steps {
-            container('docker') {
+            
               script {
                   APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}")
               }
-            }
+            
           }
         }
         
