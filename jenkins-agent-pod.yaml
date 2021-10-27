@@ -19,7 +19,6 @@ spec:
     command:
     - dockerd-entrypoint.sh
     tty: true
-    privileged: true
   - name: kubectl
     image: bitnami/kubectl:latest
     command:
