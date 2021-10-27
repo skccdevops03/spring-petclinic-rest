@@ -17,8 +17,9 @@ spec:
   - name: docker
     image: docker:dind
     command:
-    - cat
+    - dockerd-entrypoint.sh
     tty: true
+    privileged: true
   - name: kubectl
     image: bitnami/kubectl:latest
     command:
