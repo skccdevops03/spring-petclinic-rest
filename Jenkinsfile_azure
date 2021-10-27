@@ -1,5 +1,10 @@
 pipeline {
-  agent any
+  agent {
+    kubernetes {
+      label 'petclinic-cd'
+      yamlFile 'jenkins-agent-pod.yaml'
+    }
+  }
     
     environment {
       REGISTRY_URL = 'https://kktdevops.koreacentral.cloudapp.azure.com'
