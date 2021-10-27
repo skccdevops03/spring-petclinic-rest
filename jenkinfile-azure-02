@@ -1,96 +1,81 @@
 pipeline {
-  agent {
-    kubernetes {
-      label 'petclinic-cd'
-      yamlFile 'jenkins-agent-pod.yaml'
-    }
-  }
+  agent any
     
     environment {
-    //GIT_COMMIT_SHORT = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
-    APP_IMAGE = null
-    IMAGE_REPO = 'repo-spring-petclinic-rest'
-    IMAGE_NAME = 'spring-petclinic-rest'
-    IMAGE_TAG = sh(returnStdout: true, script: '(git rev-parse --short HEAD && echo "_$BUILD_NUMBER") | tr -d "\n"').trim()
-    REGISTRY_URL = 'devops03.koreacentral.cloudapp.azure.com'
-    REGISTRY_CREDENTIALS = 'credential_harbor'
-    ArgoURL='20.200.241.185'
-    argocdAppPrefix='azure-helm-petclinic'
-    appWaitTimeout = 60
+      REGISTRY_URL = 'https://kktdevops.koreacentral.cloudapp.azure.com'
+      REGISTRY_CREDENTIALS = 'credentials_harbor'
+      APP_IMAGE = null
+      IMAGE_REPO = 'repo-spring-petclinic-rest'
+      IMAGE_NAME = 'spring-petclinic-rest'
+      IMAGE_TAG = sh(returnStdout: true, script: '(git rev-parse --short HEAD && echo "_$BUILD_NUMBER") | tr -d "\n"').trim()
+      APP_URL='http://ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com/petclinic'
+      APP_PORT=80
+      PerfURL='ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com'    
+      ArgoURL='20.200.241.185'
+      argocdAppPrefix='azure-helm-petclinic'
+      appWaitTimeout = 60
     }
 
     stages {
-      stage('Build') {
-        steps {
-          container('maven') {
-            sh 'mvn clean compile'
-          }
+        stage('Build') {
+            steps {
+                sh './mvnw clean compile'
+            }
         }
-      }
-      stage('Unit Test') {
+        stage('Unit Test') {
+    		steps {
+        		sh './mvnw test'
+    		}
+    		post {
+        		always {
+            		junit 'target/surefire-reports/*.xml'
+            		step([ $class: 'JacocoPublisher' ])
+        		}
+    		}
+		}
+	stage('Static Code Analysis') {
+    		steps {
+        		configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
+            	sh './mvnw sonar:sonar -s $MAVEN_SETTINGS'
+            	
+        		}
+    		}
+		}
+        stage('Package') {
+         steps {
+           sh "./mvnw package -DskipTests"
+             archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+         }
+       }
+    
+	stage('Build Docker image') {
           steps {
-            container('maven') {
-              sh 'mvn test'
+            script {
+                APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}")
             }
           }
-          post {
-            always {
-              junit 'target/surefire-reports/*.xml'
-              step([ $class: 'JacocoPublisher' ])
-            }
-          }
         }
-       stage('Static Code Analysis') {
+        
+        stage('Push Docker image') {
           steps {
-            configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
-              container('maven') {
-                sh 'mvn sonar:sonar -s $MAVEN_SETTINGS'
+            script {
+              docker.withRegistry(REGISTRY_URL, REGISTRY_CREDENTIALS) {
+                APP_IMAGE.push()
+                APP_IMAGE.push('latest')
               }
             }
           }
-        }
-      
-      stage('Package') {
-      steps {
-        container('maven') {
-          sh 'mvn clean package -DskipTests'
-          archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
-        }
-      }
-    }
-    stage('Build Docker image') {
-      steps {
-        //container('docker') {
-          script {
-            APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}")
-          }
-        //}
-      }
-    }
-
-stage('Push Docker image') {
-      steps {
-        container('docker') {
-          script {
-            docker.withRegistry('https://' + REGISTRY_URL, REGISTRY_CREDENTIALS) {
-              APP_IMAGE.push()
-              APP_IMAGE.push('latest')
-            }
-          }
-        }
-      }
-    }
-
-stage('Update manifest') {
+       }
+       stage('Update manifest') {
     
-      steps {
-        sh """
-          git config --global user.name 'skccdevops03'
-          git config --global user.email 'skcc.devops03@sk.com'
-          git config --global credential.helper cache
-          git config --global push.default simple
-        """
-        git url: 'https://github.com/skccdevops03/azure-helm-petclinic.git', credentialsId: 'credential_git', branch: 'main'
+        steps {
+          sh """
+            git config --global user.name 'skccdevops03'
+            git config --global user.email 'skcc.devops03@sk.com'
+            git config --global credential.helper cache
+            git config --global push.default simple
+          """
+        git url: 'https://github.com/skccdevops03/azure-helm-petclinic.git', credentialsId: 'credentials_git', branch: 'main'
         sh """
           sed -i 's/tag:.*/tag: "${IMAGE_TAG}"/g' values.yaml
           git add values.yaml
@@ -100,22 +85,6 @@ stage('Update manifest') {
       }
     }
     
-    stage('Argo'){
-       steps {
-       withCredentials([usernamePassword(credentialsId: 'credentials_argo', usernameVariable: 'ARGOCD_USER', passwordVariable: 'ARGOCD_PWD')]) {
-        container('argocd') {
-                sh """
-                yes | argocd login --insecure ${ArgoURL} --username ${ARGOCD_USER} --password ${ARGOCD_PWD}
-                argocd app sync ${argocdAppPrefix}
-                argocd app wait ${argocdAppPrefix} --timeout ${appWaitTimeout}
-                argocd logout ${ArgoURL}
-                sleep 10
-                """
-          }
-       }
-       }
-     }
-      
-      
+        
     }   
  }
