@@ -7,7 +7,7 @@ pipeline {
   }
     
     environment {
-      REGISTRY_URL = 'https://kktdevops.koreacentral.cloudapp.azure.com'
+      REGISTRY_URL = 'https://devopskkt.koreacentral.cloudapp.azure.com'
       REGISTRY_CREDENTIALS = 'credentials_harbor'
       APP_IMAGE = null
       IMAGE_REPO = 'repo-spring-petclinic-rest'
