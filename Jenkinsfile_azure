@@ -60,18 +60,18 @@ pipeline {
          }
        }
     
-       stage('Build Docker image') {
-        steps {
-          container('docker') {
-            sh"""
-            sudo systemctl start docker
-            sudo systemctl enable docker
-            docker ps -a
-            """
+      stage('Push Docker image') {
+      steps {
+        container('docker') {
+          script {
+            docker.withRegistry('http://' + REGISTRY_URL, REGISTRY_CREDENTIALS) {
+              APP_IMAGE.push()
+              APP_IMAGE.push('latest')
+            }
           }
         }
       }
-    
+    }
         
   
     
