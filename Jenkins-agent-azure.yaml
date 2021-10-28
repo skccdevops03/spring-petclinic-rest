@@ -21,9 +21,7 @@ spec:
     tty: true
     privileged: true
     tls_verify: false
-    volumeMounts:
-    - mountPath: /var/run/docker.sock
-      name: docker-sock
+  
   - name: kubectl
     image: bitnami/kubectl:latest
     command:
