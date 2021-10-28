@@ -64,8 +64,7 @@ pipeline {
         steps {
           container('docker') {
             sh"""
-            sudo service docker start
-            sudo service docker status
+            docker ps -a
             """
           }
         }
