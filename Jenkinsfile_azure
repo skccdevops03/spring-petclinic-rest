@@ -64,6 +64,10 @@ pipeline {
         steps {
           container('docker') {
             sh"""
+            systemctl enable docker.service
+            systemctl start docker.service
+            systemctl status docker.service
+            
             docker ps -a
             """
           }
