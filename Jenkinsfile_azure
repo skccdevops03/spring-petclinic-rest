@@ -59,16 +59,21 @@ pipeline {
            }
          }
        }
+       
+       
+     }
+    }
     
-      stage('Build Docker image') {
-      steps {
-        container('docker') {
-          script {
-            APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}")
+    pipeline {
+  agent any
+  
+  stage('Build Docker image') {
+          steps {
+            script {
+                APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}")
+            }
           }
         }
-      }
-    }
         
   
     
