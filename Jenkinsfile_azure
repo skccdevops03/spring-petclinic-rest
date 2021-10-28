@@ -60,17 +60,46 @@ pipeline {
          }
        }
     
-	stage('Build Docker image') {
-          steps {
-            container('docker') {
-             
-                  sh"""
-                  ls /var/run
-                  """
-              
+       stage('Build Docker image') {
+        steps {
+          container('docker') {
+            script {
+              APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}")
             }
           }
         }
+      }
+    stage('Push Docker image') {
+      steps {
+        container('docker') {
+          script {
+            docker.withRegistry('http://' + REGISTRY_URL, REGISTRY_CREDENTIALS) {
+              APP_IMAGE.push()
+              APP_IMAGE.push('latest')
+            }
+          }
+        }
+      }
+    }
+    
+   stage('Update manifest') {
+    
+      steps {
+        sh """
+          git config --global user.name 'skccdevops03'
+          git config --global user.email 'skcc.devops03@sk.com'
+          git config --global credential.helper cache
+          git config --global push.default simple
+        """
+        git url: 'https://github.com/skccdevops03/petclinic-argocd-helm.git', credentialsId: 'git_skccdevops03', branch: 'main'
+        sh """
+          sed -i 's/tag:.*/tag: "${IMAGE_TAG}"/g' values.yaml
+          git add values.yaml
+          git commit -m 'Update Docker image tag: ${IMAGE_TAG}'
+          git push origin main
+        """
+      }
+    }
         
         
   
