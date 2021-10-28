@@ -2,7 +2,7 @@ pipeline {
   agent {
     kubernetes {
       label 'petclinic-cd'
-      yamlFile 'jenkins-agent-azure.yaml'
+      yamlFile 'Jenkins-agent-azure.yaml'
     }
   }
     
