@@ -65,7 +65,7 @@ pipeline {
             container('docker') {
              
                   sh"""
-                  docker run hello-world
+                  ls /var/run
                   """
               
             }
