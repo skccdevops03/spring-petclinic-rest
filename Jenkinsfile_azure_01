@@ -1,0 +1,90 @@
+pipeline {
+  agent none
+    
+    environment {
+      REGISTRY_URL = 'https://kktdevops.koreacentral.cloudapp.azure.com'
+      REGISTRY_CREDENTIALS = 'credentials_harbor'
+      APP_IMAGE = null
+      IMAGE_REPO = 'repo-spring-petclinic-rest'
+      IMAGE_NAME = 'spring-petclinic-rest'
+      IMAGE_TAG = sh(returnStdout: true, script: '(git rev-parse --short HEAD && echo "_$BUILD_NUMBER") | tr -d "\n"').trim()
+      APP_URL='http://ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com/petclinic'
+      APP_PORT=80
+      PerfURL='ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com'    
+      ArgoURL='20.200.241.185'
+      argocdAppPrefix='azure-helm-petclinic'
+      appWaitTimeout = 60
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                sh './mvnw clean compile'
+            }
+        }
+        stage('Unit Test') {
+    		steps {
+        		sh './mvnw test'
+    		}
+    		post {
+        		always {
+            		junit 'target/surefire-reports/*.xml'
+            		step([ $class: 'JacocoPublisher' ])
+        		}
+    		}
+		}
+	stage('Static Code Analysis') {
+    		steps {
+        		configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
+            	sh './mvnw sonar:sonar -s $MAVEN_SETTINGS'
+            	
+        		}
+    		}
+		}
+        stage('Package') {
+         steps {
+           sh "./mvnw package -DskipTests"
+             archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+         }
+       }
+    
+	stage('Build Docker image') {
+          steps {
+            script {
+                APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}")
+            }
+          }
+        }
+        
+        stage('Push Docker image') {
+          steps {
+            script {
+              docker.withRegistry(REGISTRY_URL, REGISTRY_CREDENTIALS) {
+                APP_IMAGE.push()
+                APP_IMAGE.push('latest')
+              }
+            }
+          }
+       }
+       stage('Update manifest') {
+    
+        steps {
+          sh """
+            git config --global user.name 'skccdevops03'
+            git config --global user.email 'skcc.devops03@sk.com'
+            git config --global credential.helper cache
+            git config --global push.default simple
+          """
+        git url: 'https://github.com/skccdevops03/azure-helm-petclinic.git', credentialsId: 'credentials_git', branch: 'main'
+        sh """
+          sed -i 's/tag:.*/tag: "${IMAGE_TAG}"/g' values.yaml
+          git add values.yaml
+          git commit -m 'Update Docker image tag: ${IMAGE_TAG}'
+          git push origin main
+        """
+      }
+    }
+    
+        
+    }   
+ }
