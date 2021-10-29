@@ -1,19 +1,96 @@
 pipeline {
   agent none
 
-    stages {
-     
-        stage('Build') {
-             agent any
-            steps {
-              
-                sh './mvnw clean compile'
-              
-            }
+  environment {
+     REGISTRY_URL = 'https://kktdevops.koreacentral.cloudapp.azure.com'
+      REGISTRY_CREDENTIALS = 'credentials_harbor'
+      APP_IMAGE = null
+      IMAGE_REPO = 'repo-spring-petclinic-rest'
+      IMAGE_NAME = 'spring-petclinic-rest'
+      IMAGE_TAG = sh(returnStdout: true, script: '(git rev-parse --short HEAD && echo "_$BUILD_NUMBER") | tr -d "\n"').trim()
+      APP_URL='http://ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com/petclinic'
+      APP_PORT=80
+      PerfURL='ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com'    
+      ArgoURL='20.200.241.185'
+      argocdAppPrefix='azure-helm-petclinic'
+      appWaitTimeout = 60
+  }
+
+  stages {
+
+    stage('Build') {
+      agent {
+        kubernetes {
+          label 'petclinic-cd'
+          yamlFile 'jenkins-agent-pod.yaml'
         }
-        
-        
-    
-      
-    }   
- }
+      }
+      steps {
+        container('maven') {
+          sh 'mvn clean compile'
+        }
+      }
+    }
+
+    stage('Unit Test') {
+      agent {
+        kubernetes {
+          label 'petclinic-cd'
+          yamlFile 'jenkins-agent-pod.yaml'
+        }
+      }
+      steps {
+        container('maven') {
+          sh 'mvn test'
+        }
+      }
+      post {
+        always {
+          junit 'target/surefire-reports/*.xml'
+          step([ $class: 'JacocoPublisher' ])
+        }
+      }
+    }
+
+    stage('Static Code Analysis') {
+      agent any
+      steps {
+        configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
+          sh './mvnw sonar:sonar -s $MAVEN_SETTINGS'
+        }
+      }
+    }
+/*
+    stage('Static Code Analysis') {
+      agent {
+        kubernetes {
+          label 'petclinic-cd'
+          yamlFile 'jenkins-agent-pod.yaml'
+        }
+      }
+      steps {
+        configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
+          container('maven') {
+            sh 'mvn sonar:sonar -s $MAVEN_SETTINGS'
+          }
+        }
+      }
+    }
+*/
+    stage('Package') {
+      agent {
+        kubernetes {
+          label 'petclinic-cd'
+          yamlFile 'jenkins-agent-pod.yaml'
+        }
+      }
+      steps {
+        container('maven') {
+          sh 'mvn clean package -DskipTests'
+          archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+        }
+      }
+    }
+
+  }  /* stages */
+}  /* pipeline */
