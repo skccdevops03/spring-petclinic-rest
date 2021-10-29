@@ -31,11 +31,12 @@ pipeline {
               }
             }
         }
+        
         stage('Unit Test') {
                 agent {
                   kubernetes {
                     label 'petclinic-cd'
-                 
+                    yamlFile 'jenkins-agent-pod.yaml'
                   }
                 }
     		steps {
@@ -49,12 +50,13 @@ pipeline {
             		step([ $class: 'JacocoPublisher' ])
         		}
     		}
-		}
+	}
+                
 	stage('Static Code Analysis') {
                 agent {
                   kubernetes {
                     label 'petclinic-cd'
-                 
+                    yamlFile 'jenkins-agent-pod.yaml'
                   }
                 }
     		steps {
@@ -70,7 +72,7 @@ pipeline {
           agent {
                   kubernetes {
                     label 'petclinic-cd'
-                 
+                   yamlFile 'jenkins-agent-pod.yaml'
                   }
                 }
           steps {
