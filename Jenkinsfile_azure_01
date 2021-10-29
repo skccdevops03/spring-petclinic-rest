@@ -123,7 +123,7 @@ pipeline {
           git config --global credential.helper cache
           git config --global push.default simple
         """
-        git url: 'https://github.com/skccdevops03/petclinic-argocd-helm.git', credentialsId: 'git_skccdevops03', branch: 'main'
+        git url: 'https://github.com/skccdevops03/petclinic-argocd-helm.git', credentialsId: 'credentials_git', branch: 'main'
         sh """
           sed -i 's/tag:.*/tag: "${IMAGE_TAG}"/g' values.yaml
           git add values.yaml
