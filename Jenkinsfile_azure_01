@@ -123,7 +123,7 @@ pipeline {
           git config --global credential.helper cache
           git config --global push.default simple
         """
-        git url: 'https://github.com/skccdevops03/petclinic-argocd-helm.git', credentialsId: 'credentials_git', branch: 'main'
+        git url: 'https://github.com/skccdevops03/azure-helm-petclinic.git', credentialsId: 'credentials_git', branch: 'main'
         sh """
           sed -i 's/tag:.*/tag: "${IMAGE_TAG}"/g' values.yaml
           git add values.yaml
@@ -140,7 +140,7 @@ pipeline {
         }
       }
        steps {
-       withCredentials([usernamePassword(credentialsId: 'Argocd_credential', usernameVariable: 'ARGOCD_USER', passwordVariable: 'ARGOCD_PWD')]) {
+       withCredentials([usernamePassword(credentialsId: 'credentials_argo', usernameVariable: 'ARGOCD_USER', passwordVariable: 'ARGOCD_PWD')]) {
         container('argocd') {
                 sh """
                 yes | argocd login --insecure ${ArgoURL} --username ${ARGOCD_USER} --password ${ARGOCD_PWD}
@@ -161,7 +161,7 @@ pipeline {
         }
       }
        steps {
-       withCredentials([usernamePassword(credentialsId: 'git_skccdevops03', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PWD')]) {
+       withCredentials([usernamePassword(credentialsId: 'credentials_git', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_PWD')]) {
          container('jmeter') {
          sh """
          git checkout origin/master
