@@ -1,5 +1,5 @@
 pipeline {
-  agent any
+  agent none
     
     environment {
       REGISTRY_URL = 'https://kktdevops.koreacentral.cloudapp.azure.com'
@@ -17,14 +17,31 @@ pipeline {
     }
 
     stages {
+     
         stage('Build') {
+             agent {
+               kubernetes {
+                 label 'petclinic-cd'
+                 yamlFile 'jenkins-agent-pod.yaml'
+              }
+            }
             steps {
-                sh './mvnw clean compile'
+              container('maven') {
+                sh 'mvn clean compile'
+              }
             }
         }
         stage('Unit Test') {
+                agent {
+                  kubernetes {
+                    label 'petclinic-cd'
+                 
+                  }
+                }
     		steps {
-        		sh './mvnw test'
+                  container('maven') {
+        		sh 'mvn test'
+                  }      
     		}
     		post {
         		always {
@@ -34,21 +51,37 @@ pipeline {
     		}
 		}
 	stage('Static Code Analysis') {
+                agent {
+                  kubernetes {
+                    label 'petclinic-cd'
+                 
+                  }
+                }
     		steps {
         		configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
-            	sh './mvnw sonar:sonar -s $MAVEN_SETTINGS'
+                        container('maven') {
+            	           sh 'mvn sonar:sonar -s $MAVEN_SETTINGS'
             	
         		}
     		}
 		}
         stage('Package') {
-         steps {
-           sh "./mvnw package -DskipTests"
-             archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+          agent {
+                  kubernetes {
+                    label 'petclinic-cd'
+                 
+                  }
+                }
+          steps {
+            container('maven') {
+              sh "mvn clean package -DskipTests"
+               archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
+            }   
          }
        }
     
 	stage('Build Docker image') {
+          agent any
           steps {
             script {
                 APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}")
@@ -57,6 +90,7 @@ pipeline {
         }
         
         stage('Push Docker image') {
+          agent any
           steps {
             script {
               docker.withRegistry(REGISTRY_URL, REGISTRY_CREDENTIALS) {
