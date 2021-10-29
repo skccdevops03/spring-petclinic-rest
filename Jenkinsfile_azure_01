@@ -58,13 +58,14 @@ pipeline {
                   }
                 }
     		steps {
-        		configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
+        	  configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
                         container('maven') {
             	           sh 'mvn sonar:sonar -s $MAVEN_SETTINGS'
-            	
-        		}
-    		}
+            	        }
+    		   }
 		}
+         }
+         
         stage('Package') {
           agent {
                   kubernetes {
@@ -119,6 +120,6 @@ pipeline {
       }
     }
     
-   }     
+      
     }   
  }
