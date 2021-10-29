@@ -19,16 +19,11 @@ pipeline {
     stages {
      
         stage('Build') {
-             agent {
-               kubernetes {
-                 label 'petclinic-cd'
-                 yamlFile 'jenkins-agent-pod.yaml'
-              }
-            }
+             agent any
             steps {
-              container('maven') {
-                sh 'mvn clean compile'
-              }
+              
+                sh './mvnw clean compile'
+              
             }
         }
         
