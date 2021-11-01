@@ -8,9 +8,9 @@ pipeline {
       IMAGE_REPO = 'repo-spring-petclinic-rest'
       IMAGE_NAME = 'spring-petclinic-rest'
       IMAGE_TAG = "test_${BUILD_NUMBER}"
-      APP_URL='http://azure-helm-petclinic.koreacentral.cloudapp.azure.com/petclinic/swagger-ui.html'
+      APP_URL='http://azure-helm-petclinic.koreacentral.cloudapp.azure.com/petclinic'
       APP_PORT=80
-      PerfURL='azure-helm-petclinic.koreacentral.cloudapp.azure.com/petclinic/swagger-ui.html'    
+      PerfURL='azure-helm-petclinic.koreacentral.cloudapp.azure.com'    
       ArgoURL='20.200.241.185'
       argocdAppPrefix='azure-helm-petclinic'
       appWaitTimeout = 60
