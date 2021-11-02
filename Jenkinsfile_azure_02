@@ -51,7 +51,7 @@ pipeline {
         }
       }
     }
-
+/*
     stage('Static Code Analysis') {
       agent any
       steps {
@@ -60,7 +60,7 @@ pipeline {
         }
       }
     }
-/*
+*/
     stage('Static Code Analysis') {
       agent {
         kubernetes {
@@ -76,7 +76,7 @@ pipeline {
         }
       }
     }
-*/
+
     stage('Package') {
       agent {
         kubernetes {
