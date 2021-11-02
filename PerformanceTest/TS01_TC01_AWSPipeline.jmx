@@ -140,7 +140,7 @@
               </elementProp>
             </collectionProp>
           </elementProp>
-          <stringProp name="HTTPSampler.domain">ad023ff3956274e04a524f6dfe08fbe1-3c32bf7bdf2ae59d.elb.ap-northeast-2.amazonaws.com</stringProp>
+          <stringProp name="HTTPSampler.domain">${url}</stringProp>
           <stringProp name="HTTPSampler.port">80</stringProp>
           <stringProp name="HTTPSampler.protocol"></stringProp>
           <stringProp name="HTTPSampler.contentEncoding"></stringProp>
