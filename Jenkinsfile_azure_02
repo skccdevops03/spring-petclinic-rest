@@ -71,6 +71,7 @@ pipeline {
       steps {
         configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
           container('maven') {
+            sh 'mvn clean compile'
             sh 'mvn sonar:sonar -s $MAVEN_SETTINGS'
           }
         }
