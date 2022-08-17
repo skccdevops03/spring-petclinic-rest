@@ -6,7 +6,7 @@ pipeline {
             APP_IMAGE = null
             IMAGE_REPO = 'repo-spring-petclinic-rest'
             IMAGE_NAME = 'spring-petclinic-rest'
-            IMAGE_TAG = '${GIT_COMMIT}_${BUILD_NUMBER}'
+            IMAGE_TAG = '${GIT_COMMIT_SHORT}_${BUILD_NUMBER}'
             REGISTRY_URL = 'http://3.38.12.213:8000'
             REGISTRY_CREDENTIALS = 'credential_harbor'
         }
@@ -46,7 +46,7 @@ pipeline {
             steps {
                    
                 script {
-                    APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}")
+                    APP_IMAGE = docker.build("${IMAGE_REPO}_${IMAGE_NAME}:${IMAGE_TAG}")
                 }   
               
             }
