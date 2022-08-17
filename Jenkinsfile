@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-      kubernetes {
-        label 'petclinic-cd'
-        yamlFile 'jenkins-agent-pod.yaml'
-      }
-    }
+    agent any
     
     environment {
             GIT_COMMIT_SHORT = sh(returnStdout: true, script: 'git rev-parse --short HEAD').trim()
@@ -49,23 +44,23 @@ pipeline {
         }
         stage('Build Docker image') {
             steps {
-              container('docker') {        
+                   
                 script {
                     APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}")
                 }
-              }
+              
             }
         }
         stage('Push Docker image') {
             steps {
-              container('docker') {
+              
                 script {
                     docker.withRegistry(REGISTRY_URL, REGISTRY_CREDENTIALS) {
                     APP_IMAGE.push()
                         APP_IMAGE.push('latest')
                     }
                 }
-              }        
+                      
             }
         }
         
