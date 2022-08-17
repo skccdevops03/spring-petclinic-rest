@@ -28,15 +28,15 @@ pipeline {
         		}
     		}
 		}
-		stage('Static Code Analysis') {
+	stage('Static Code Analysis') {
     		steps {
         		configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
             	sh './mvnw sonar:sonar -s $MAVEN_SETTINGS'
-            	//test_04
+            	sh 'echo ${IMAGE_TAG}'
         		}
     		}
 		}
-		stage('Package') {
+	stage('Package') {
             steps {
                 sh "./mvnw package -DskipTests"
                 archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
