@@ -46,7 +46,7 @@ pipeline {
             steps {
                    
                 script {
-                        APP_IMAGE = docker.build("${IMAGE_REPO}_${IMAGE_NAME}_${IMAGE_TAG}")
+                        APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}_${IMAGE_TAG}")
                 }   
               
             }
