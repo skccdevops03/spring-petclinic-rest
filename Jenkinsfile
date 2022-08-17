@@ -7,7 +7,7 @@ pipeline {
             IMAGE_REPO = 'repo-spring-petclinic-rest'
             IMAGE_NAME = 'spring-petclinic-rest'
             IMAGE_TAG = '${GIT_COMMIT_SHORT}_${BUILD_NUMBER}'
-            REGISTRY_URL = 'http://220.194.59.138:8000'
+            REGISTRY_URL = 'http://3.38.12.213:8000'
             REGISTRY_CREDENTIALS = 'credential_harbor'
         }
     
