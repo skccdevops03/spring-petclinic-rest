@@ -32,7 +32,7 @@ pipeline {
     		steps {
         		configFileProvider([configFile(fileId: 'maven-settings', variable: 'MAVEN_SETTINGS')]) {
             	sh './mvnw sonar:sonar -s $MAVEN_SETTINGS'
-            	sh 'echo ${IMAGE_TAG}'
+           
         		}
     		}
 		}
@@ -46,8 +46,8 @@ pipeline {
             steps {
                    
                 script {
-                    APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}")
-                }
+                    //APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}:${IMAGE_TAG}")
+                    APP_IMAGE = docker.build("${IMAGE_REPO}/${IMAGE_NAME}")
               
             }
         }
